@@ -4,4 +4,5 @@ public enum TypeUser {
     ADMIN,
     STUDENT,
     TEACHER,
+    EMPLOYEE,
 }

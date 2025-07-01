@@ -37,6 +37,10 @@ public class Teacher {
     @Column(name = "hire_date",  nullable = false)
     private LocalDate hireDate;
 
+    // cpf do professor
+    @Column(name = "CPF", nullable = false, unique = true)
+    private String cpf;
+
     // lista de emails vinculado ao professor
     @ElementCollection
     @CollectionTable(name = "teacher_emails", joinColumns = @JoinColumn(name = "teacher_id"))
@@ -48,6 +52,9 @@ public class Teacher {
     @CollectionTable(name = "teacher_phones", joinColumns = @JoinColumn(name = "teacher_id"))
     @Column(name = "phone")
     private List<String> telephones;
+
+    @OneToMany(mappedBy = "advisor")
+    private List<Student> advisees;
 
     // lista de disciplinas que o professer leciona
     @ManyToMany
