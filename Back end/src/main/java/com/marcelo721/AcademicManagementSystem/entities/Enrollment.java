@@ -19,6 +19,7 @@ public class Enrollment {
 
     // estudante associado a matrícula
     @ManyToOne
+    @JoinColumn(name = "student_code")
     private Student student;
 
     // disciplina que está associada a matricula
@@ -26,10 +27,10 @@ public class Enrollment {
     private Subject subject;
 
     // nota final na disciplina
-    @Column(name = "finalGrade", nullable = false)
+    @Column(name = "final_grade")
     private float finalGrade;
 
     //frequencia
-    @Column(name = "attendance", nullable = false)
+    @Column(name = "attendance")
     private Float attendance;
 }

@@ -32,7 +32,7 @@ public class Phone {
 
     // nome do estudante dono do telefone
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_code")
     private Student studentPhone;
 
 }

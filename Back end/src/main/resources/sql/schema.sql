@@ -52,12 +52,12 @@ CREATE TABLE student (
     type_student ENUM('UNDERGRADUATE', 'POSTGRADUATE') NOT NULL,
     admission_year DATE NOT NULL,
     address VARCHAR(255) NOT NULL,
-    advisor_id BIGINT NOT NULL,
-    course_id BIGINT,
+    advisor_id BIGINT ,
+    course_code BIGINT,
     PRIMARY KEY (code),
     CONSTRAINT fk_student_advisor FOREIGN KEY (advisor_id)
         REFERENCES teacher(code),
-    CONSTRAINT fk_student_course FOREIGN KEY (course_id)
+    CONSTRAINT fk_student_course FOREIGN KEY (course_code)
         REFERENCES course(code)
 );
 
@@ -65,9 +65,9 @@ CREATE TABLE phone (
     id BIGINT NOT NULL AUTO_INCREMENT,
     description VARCHAR(100) NOT NULL,
     number VARCHAR(20) NOT NULL,
-    student_id BIGINT,
+    student_code BIGINT,
     PRIMARY KEY (id),
-    CONSTRAINT fk_phone_student FOREIGN KEY (student_id)
+    CONSTRAINT fk_phone_student FOREIGN KEY (student_code)
         REFERENCES student(code)
 );
 
@@ -83,15 +83,6 @@ CREATE TABLE subject (
         REFERENCES course(code)
 );
 
-CREATE TABLE course_subjects (
-     course_code BIGINT NOT NULL,
-     subject_code BIGINT NOT NULL,
-     PRIMARY KEY (course_code, subject_code),
-     FOREIGN KEY (course_code) REFERENCES course(code) ,
-     FOREIGN KEY (subject_code) REFERENCES subject(code)
-);
-
-
 CREATE TABLE subject_prerequisites (
     subject_code BIGINT NOT NULL,
     prerequisite_code BIGINT NOT NULL,
@@ -106,12 +97,12 @@ CREATE TABLE subject_prerequisites (
 
 CREATE TABLE enrollment (
     code BIGINT NOT NULL AUTO_INCREMENT,
-    student_id BIGINT,
+    student_code BIGINT,
     subject_code BIGINT,
-    finalGrade FLOAT NOT NULL,
-    attendance FLOAT NOT NULL,
+    final_grade FLOAT ,
+    attendance FLOAT ,
     PRIMARY KEY (code),
-    CONSTRAINT fk_enrollment_student FOREIGN KEY (student_id)
+    CONSTRAINT fk_enrollment_student FOREIGN KEY (student_code)
         REFERENCES student(code),
     CONSTRAINT fk_enrollment_subject FOREIGN KEY (subject_code)
         REFERENCES subject(code)
@@ -157,11 +148,11 @@ CREATE TABLE users (
    PRIMARY KEY (id)
 );
 
-ALTER TABLE student AUTO_INCREMENT = 100000;
-ALTER TABLE users AUTO_INCREMENT = 100000;
-ALTER TABLE department AUTO_INCREMENT = 10000;
-ALTER TABLE course AUTO_INCREMENT = 10000;
-ALTER TABLE teacher AUTO_INCREMENT = 10000;
+ALTER TABLE student AUTO_INCREMENT = 400000;
+ALTER TABLE users AUTO_INCREMENT = 400000;
+ALTER TABLE department AUTO_INCREMENT = 400000;
+ALTER TABLE course AUTO_INCREMENT = 400000;
+ALTER TABLE teacher AUTO_INCREMENT = 400000;
 
 
 

@@ -38,13 +38,14 @@ public class Subject {
 
     // curso a qual a disciplina pertence
     @ManyToOne
-    @JoinColumn(name = "course_code")
+    @JoinColumn(name = "course_code", nullable = false)
     @JsonIgnore
     private Course course;
 
     // Lista de matrículas associadas a esta disciplina.
     // Representa os alunos que estão cursando (ou cursaram) esta disciplina
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Enrollment> enrollments;
 
     // definir se uma disciplina é optativa ou obrigatória
@@ -52,21 +53,23 @@ public class Subject {
     @Enumerated(EnumType.STRING)
     private TypeSubject typeSubject;
 
-
     //lista de matérias que são pré requisitos para essa
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "subject_prerequisites",
             joinColumns = @JoinColumn(name = "subject_code"),
             inverseJoinColumns = @JoinColumn(name = "prerequisite_code")
     )
+    @JsonIgnore
     private Set<Subject> prerequisites = new HashSet<>();
 
     // Disciplinas para as quais esta disciplina é pré-requisito (opcional, para navegação inversa)
-    @ManyToMany(mappedBy = "prerequisites")
+    @ManyToMany(mappedBy = "prerequisites", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
+    @JsonIgnore
     private Set<Subject> dependentSubjects = new HashSet<>();
 
     // lista dos professores que leciona a disciplina
-    @ManyToMany(mappedBy = "subjects")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "subjects", cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private List<Teacher> teachers = new ArrayList<>();
 }

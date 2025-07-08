@@ -9,36 +9,39 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-public record StudentCreateDto (
-       @NotBlank
-       String name,
+public record StudentCreateDto(
+        @NotBlank
+        String name,
 
-       @NotNull
-       TypeStudent typeStudent,
+        @NotNull
+        TypeStudent typeStudent,
 
-       @NotNull
-       LocalDate admissionYear,
+        @NotNull
+        LocalDate admissionYear,
 
-       @NotBlank
-       String address,
+        @NotBlank
+        String address,
 
-       @NotNull
-       Long courseCode,
+        @NotNull
+        Long courseCode,
 
-       @NotBlank
-       List<String> previousCourses,
+        Long teacherCode,
 
-       @NotNull
-       List<Phone> phone
+        @NotNull
+        List<@NotBlank String> previousCourses,
+
+        @NotNull
+        List<Phone> phones
 ){
-       public Student toEntity() {
-              Student student = new Student();
-              student.setName(name);
-              student.setTypeStudent(typeStudent);
-              student.setAdmissionYear(admissionYear);
-              student.setAddress(address);
-              student.setPreviousCourses(previousCourses);
-              student.setTelephones(phone);
-              return student;
-       }
+    public Student toEntity() {
+        Student student = new Student();
+        student.setName(name);
+        student.setTypeStudent(typeStudent);
+        student.setAdmissionYear(admissionYear);
+        student.setPreviousCourses(previousCourses);
+        student.setAddress(address);
+        phones.forEach(p -> p.setStudentPhone(student));
+        student.setTelephones(phones);
+        return student;
+    }
 }

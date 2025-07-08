@@ -1,6 +1,7 @@
 package com.marcelo721.AcademicManagementSystem.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcelo721.AcademicManagementSystem.entities.Enums.TypeStudent;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,25 +42,28 @@ public class Student {
     private String address;
 
     // cursos que o aluno já cursou para alunos de graduação
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "previous_courses", joinColumns = @JoinColumn(name = "student_id"))
     @Column(name = "previous_courses")
     private List<String> previousCourses = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "advisor_id", nullable = false)
+    @JoinColumn(name = "advisor_id")
     private Teacher advisor;
 
     // curso que estudante está cursando
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_code", nullable = false)
+    @JsonIgnore
     private Course course;
 
     // lista de telefones
-    @OneToMany(mappedBy = "studentPhone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "studentPhone", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Phone> telephones;
 
     // disciplinas que o estudante está matriulado
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Enrollment> enrollments;
 }

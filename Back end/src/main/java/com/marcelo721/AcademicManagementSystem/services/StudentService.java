@@ -1,7 +1,7 @@
 package com.marcelo721.AcademicManagementSystem.services;
 
 
-import com.marcelo721.AcademicManagementSystem.entities.Phone;
+import com.marcelo721.AcademicManagementSystem.entities.Course;
 import com.marcelo721.AcademicManagementSystem.entities.Student;
 import com.marcelo721.AcademicManagementSystem.repositories.StudentRepository;
 import com.marcelo721.AcademicManagementSystem.web.dto.studentDto.StudentCreateDto;
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,12 +34,10 @@ public class StudentService {
 
     @Transactional
     public void save(StudentCreateDto studentCreateDto) {
-        Student student = new Student();
-        student.setTelephones(studentCreateDto.phone());
-        student.setName(studentCreateDto.name());
-        student.setAddress(studentCreateDto.address());
-        student.setTypeStudent(studentCreateDto.typeStudent());
-        student.setCourse(courseService.findById(studentCreateDto.courseCode()));
+        Student student = studentCreateDto.toEntity();
+        Course course = courseService.findById(studentCreateDto.courseCode());
+        student.setCourse(course);
+
         studentRepository.save(student);
     }
 

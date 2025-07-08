@@ -60,7 +60,7 @@ public class Teacher {
     private List<Student> advisees;
 
     // lista de disciplinas que o professer leciona
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "teacher_subjects",
             joinColumns = @JoinColumn(name = "teacher_id"),

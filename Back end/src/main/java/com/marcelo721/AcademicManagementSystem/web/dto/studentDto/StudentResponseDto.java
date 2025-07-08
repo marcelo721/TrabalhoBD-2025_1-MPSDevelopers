@@ -14,10 +14,10 @@ public record StudentResponseDto(
         TypeStudent student,
         LocalDate admissionYear,
         List<Phone> phones,
-        List<String> previousCourses,
         String address,
         String courseName,
-        List<String> subjectsName
+        List<String> subjectsName,
+        List<String> previousCourses
 ) {
 
     public static StudentResponseDto toDto(Student student) {
@@ -29,8 +29,7 @@ public record StudentResponseDto(
 
         StudentResponseDto dto = new StudentResponseDto(
                 student.getName(), student.getTypeStudent(),student.getAdmissionYear(),student.getTelephones(),
-                student.getPreviousCourses(), student.getAddress(),student.getCourse().getName(),subjectsName
-        );
+                student.getAddress(),student.getCourse().getName(),subjectsName, student.getPreviousCourses());
         return dto;
     }
 
