@@ -32,7 +32,7 @@ public class Course {
     // Estudantes matriculados no curso
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Student> students;
+    private List<StudentPostGraduate> students;
 
     //disciplinas do curso
     @OneToMany( mappedBy = "course",cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -1,43 +1,74 @@
 package com.marcelo721.AcademicManagementSystem.web.dto.studentDto;
 
-import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
-import com.marcelo721.AcademicManagementSystem.entities.Enums.TypeStudent;
-import com.marcelo721.AcademicManagementSystem.entities.Phone;
-import com.marcelo721.AcademicManagementSystem.entities.Student;
-
+import com.marcelo721.AcademicManagementSystem.entities.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record StudentResponseDto(
+        Long code,
         String name,
-        TypeStudent student,
-        LocalDate admissionYear,
-        List<Phone> phones,
         String address,
+        LocalDate admissionYear,
+        List<String> previousCourses,
+        Long advisorId,
+        String advisorName,
         String courseName,
         List<String> subjectsName,
-        List<String> previousCourses
+        List<PhoneDto> phones
 ) {
 
-    public static StudentResponseDto toDto(Student student) {
-
-        List<String> subjectsName = new ArrayList<>();
-        for (Enrollment enrollment : student.getEnrollments()) {
-            subjectsName.add(enrollment.getSubject().getName());
+    // DTO para Phone para evitar recursão
+    public record PhoneDto(Long id, String number) {
+        public static PhoneDto fromEntity(Phone phone) {
+            return new PhoneDto(phone.getId(), phone.getNumber());
         }
-
-        StudentResponseDto dto = new StudentResponseDto(
-                student.getName(), student.getTypeStudent(),student.getAdmissionYear(),student.getTelephones(),
-                student.getAddress(),student.getCourse().getName(),subjectsName, student.getPreviousCourses());
-        return dto;
     }
 
-    public static List<StudentResponseDto> toListDto(List<Student> students) {
-        List<StudentResponseDto> dtos = new ArrayList<>();
-        for (Student student : students) {
-            dtos.add(toDto(student));
+    // Método factory para criar DTO a partir de qualquer Student
+    public static StudentResponseDto fromStudent(Student student) {
+        List<String> subjectsName = student.getEnrollments().stream()
+                .map(enrollment -> enrollment.getSubject().getName())
+                .collect(Collectors.toList());
+
+        List<PhoneDto> phoneDtos = student.getTelephones().stream()
+                .map(PhoneDto::fromEntity)
+                .collect(Collectors.toList());
+
+        LocalDate admissionYear = null;
+        List<String> previousCourses = null;
+        Long advisorId = null;
+        String advisorName = null;
+
+        if (student instanceof StudentUndergraduate) {
+            admissionYear = ((StudentUndergraduate) student).getAdmissionYear();
+        } else if (student instanceof StudentPostGraduate) {
+            StudentPostGraduate pg = (StudentPostGraduate) student;
+            previousCourses = pg.getPreviousCourses();
+            if (pg.getAdvisor() != null) {
+                advisorId = pg.getAdvisor().getId();
+                advisorName = pg.getAdvisor().getName();
+            }
         }
-        return dtos;
+
+        return new StudentResponseDto(
+                student.getId(),
+                student.getName(),
+                student.getAddress(),
+                admissionYear,
+                previousCourses,
+                advisorId,
+                advisorName,
+                student.getCourse().getName(),
+                subjectsName,
+                phoneDtos
+        );
+    }
+
+    // Método para converter lista de Students
+    public static List<StudentResponseDto> fromStudents(List<Student> students) {
+        return students.stream()
+                .map(StudentResponseDto::fromStudent)
+                .collect(Collectors.toList());
     }
 }

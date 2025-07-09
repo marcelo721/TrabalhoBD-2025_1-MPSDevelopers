@@ -2,6 +2,7 @@ package com.marcelo721.AcademicManagementSystem.services;
 
 import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
 import com.marcelo721.AcademicManagementSystem.entities.Student;
+import com.marcelo721.AcademicManagementSystem.entities.StudentPostGraduate;
 import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.repositories.EnrollmentRepository;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentCreateDto;

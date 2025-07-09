@@ -1,21 +1,27 @@
 package com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto;
 
 import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
-import com.marcelo721.AcademicManagementSystem.entities.Student;
-import com.marcelo721.AcademicManagementSystem.entities.Subject;
+import com.marcelo721.AcademicManagementSystem.web.dto.studentDto.StudentCourseResponseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectCourseResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public record EnrollmentResponseDto(
-        Student student,
-        Subject subject,
+        StudentCourseResponseDto student,
+        SubjectCourseResponseDto subject,
         Float finalGrade,
         Float attendance
 ) {
 
     public static EnrollmentResponseDto toDto(Enrollment enrollment) {
-        return new EnrollmentResponseDto(enrollment.getStudent(), enrollment.getSubject(),
+        SubjectCourseResponseDto subjectDto = new SubjectCourseResponseDto(enrollment.getSubject().getCode(),
+                enrollment.getSubject().getName(), enrollment.getSubject().getCredits(), enrollment.getSubject().getTypeSubject());
+
+        StudentCourseResponseDto studentDto = new StudentCourseResponseDto(enrollment.getStudent().getName(),
+                enrollment.getStudent().getId());
+
+        return new EnrollmentResponseDto(studentDto, subjectDto,
                 enrollment.getFinalGrade(), enrollment.getAttendance());
     }
 

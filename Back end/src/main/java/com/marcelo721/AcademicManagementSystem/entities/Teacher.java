@@ -57,7 +57,7 @@ public class Teacher {
 
     @OneToMany(mappedBy = "advisor", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Student> advisees;
+    private List<StudentPostGraduate> advisees;
 
     // lista de disciplinas que o professer leciona
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -74,5 +74,9 @@ public class Teacher {
     @JoinColumn(name = "department_id")
     @JsonBackReference
     private Department department;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
 }

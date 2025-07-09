@@ -1,9 +1,9 @@
 package com.marcelo721.AcademicManagementSystem.web.dto.TeacherDto;
 
-import com.marcelo721.AcademicManagementSystem.entities.Department;
-import com.marcelo721.AcademicManagementSystem.entities.Student;
-import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.entities.Teacher;
+import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentCourseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.studentDto.StudentCourseResponseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectCourseResponseDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,15 +17,29 @@ public record TeacherResponseDto(
         String cpf,
         List<String> emails,
         List<String> telephones,
-        List<Student> advisees,
-        List<Subject> subjects,
-        Department department
+        List<StudentCourseResponseDto> advisees,
+        List<SubjectCourseResponseDto> subjects,
+        DepartmentCourseDto  department
 
 ) {
     public static TeacherResponseDto toDto(Teacher teacher) {
+
+        List<SubjectCourseResponseDto> subjectDto = teacher.getSubjects().stream().map(
+                subject -> new SubjectCourseResponseDto(
+                        subject.getCode(),subject.getName(), subject.getCredits(),
+                        subject.getTypeSubject())).toList();
+
+        List<StudentCourseResponseDto> studentDtos = teacher.getAdvisees().stream()
+                .map(student -> new StudentCourseResponseDto(
+                        student.getName(),
+                        student.getId()))
+                .toList();
+
+        DepartmentCourseDto departmentDto = new DepartmentCourseDto(teacher.getDepartment().getName(), teacher.getDepartment().getCode());
+
         return new TeacherResponseDto(teacher.getName(), teacher.getId(),  teacher.getBirthDate()
-        , teacher.getHireDate(), teacher.getCpf(), teacher.getEmails(), teacher.getTelephones(), teacher.getAdvisees(),
-                teacher.getSubjects(), teacher.getDepartment());
+        , teacher.getHireDate(), teacher.getCpf(), teacher.getEmails(), teacher.getTelephones(), studentDtos,
+                subjectDto, departmentDto);
     }
 
     public static List<TeacherResponseDto> toListDto(List<Teacher> teachers) {

@@ -1,6 +1,5 @@
 package com.marcelo721.AcademicManagementSystem.entities;
 
-import com.marcelo721.AcademicManagementSystem.entities.Enums.TypeUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +23,4 @@ public class User {
 
     @Column(name = "password", nullable = false, length = 60)
     private String password;
-
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TypeUser type;
 }
