@@ -36,4 +36,7 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Teacher> teachers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "department",  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Employee> employees = new ArrayList<>();
 }

@@ -77,6 +77,6 @@ public class Teacher {
 
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
-    private User user;
+    private AppUser user;
 
 }

@@ -15,8 +15,8 @@ public class StudentPostGraduate extends Student {
 
     // cursos que o aluno já cursou para alunos de graduação
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "previous_courses", joinColumns = @JoinColumn(name = "student_id"))
-    @Column(name = "previous_courses")
+    @CollectionTable(name = "postgraduate_previous_courses", joinColumns = @JoinColumn(name = "student_code"))
+    @Column(name = "subject_name")
     private List<String> previousCourses = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)

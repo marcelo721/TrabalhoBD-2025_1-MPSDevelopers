@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,12 +20,12 @@ import java.util.stream.Collectors;
 public class SubjectService {
 
     private final SubjectRepository subjectRepository;
-    private final CourseService courseService;
+    private final CourseRepository courseRepository;
     private final TeacherService teacherService;
 
     @Transactional
     public void save(SubjectCreateDto subjectCreateDto) {
-        Course course = courseService.findById(subjectCreateDto.CourseId());
+        Course course = courseRepository.findById(subjectCreateDto.CourseId()).get();
 
         List<Teacher> teachers = subjectCreateDto.TeacherId().stream()
                 .map(teacherService::findById)
@@ -57,4 +55,24 @@ public class SubjectService {
         return subjectRepository.findById(code).
                 orElseThrow(() -> new EntityNotFoundException("subject Not Found"));
     }
+
+    private void disconnectSubject(Subject subject) {
+        subject.getTeachers()
+                .forEach(t -> t.getSubjects().remove(subject));
+
+        subject.getDependentSubjects()
+                .forEach(s -> s.getPrerequisites().remove(subject));
+
+        subject.getPrerequisites().clear();
+    }
+
+    @Transactional
+    public void deleteSubjectById(Long id) {
+        Subject subject = subjectRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Subject not found: " + id));
+
+        disconnectSubject(subject);
+        subjectRepository.delete(subject);
+    }
+
 }

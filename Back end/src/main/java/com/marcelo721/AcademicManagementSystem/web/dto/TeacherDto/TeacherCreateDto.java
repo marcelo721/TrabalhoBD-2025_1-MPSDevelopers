@@ -36,7 +36,13 @@ public record TeacherCreateDto(
         List<PhoneDto> phones,
 
         @NotNull
-        Long departmentId
+        Long departmentId,
+
+        @NotBlank
+        String password,
+
+        @NotBlank
+        String login
 ) {
 
     public Teacher toTeacher() {

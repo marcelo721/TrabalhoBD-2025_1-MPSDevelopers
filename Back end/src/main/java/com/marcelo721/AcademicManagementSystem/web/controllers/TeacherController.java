@@ -1,12 +1,9 @@
 package com.marcelo721.AcademicManagementSystem.web.controllers;
 
 import com.marcelo721.AcademicManagementSystem.entities.Teacher;
-import com.marcelo721.AcademicManagementSystem.entities.User;
 import com.marcelo721.AcademicManagementSystem.services.TeacherService;
 import com.marcelo721.AcademicManagementSystem.web.dto.TeacherDto.TeacherCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.TeacherDto.TeacherResponseDto;
-import com.marcelo721.AcademicManagementSystem.web.dto.userDto.UserCreateDto;
-import com.marcelo721.AcademicManagementSystem.web.dto.userDto.UserResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

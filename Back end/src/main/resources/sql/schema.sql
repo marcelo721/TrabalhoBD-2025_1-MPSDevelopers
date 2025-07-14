@@ -10,27 +10,37 @@ DROP TABLE IF EXISTS enrollment;
 DROP TABLE IF EXISTS subject_prerequisites;
 DROP TABLE IF EXISTS subject;
 DROP TABLE IF EXISTS phone;
-DROP TABLE IF EXISTS student_postgraduate;
-DROP TABLE IF EXISTS student_undergraduate;
+DROP TABLE IF EXISTS student_post_graduate;
+DROP TABLE IF EXISTS student_under_graduate;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS teacher;
 DROP TABLE IF EXISTS course;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS department;
 
--- Agora recriamos a tabela department corretamente
 CREATE TABLE department (
     code BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (code)
-);
+)AUTO_INCREMENT = 400000;
 
 CREATE TABLE users (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    login VARCHAR(255) NOT NULL UNIQUE,
+    login VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
+    role_user ENUM('TEACHER', 'STUDENT', 'EMPLOYEE', 'ADMIN') NOT NULL,
     PRIMARY KEY (id)
-);
+)AUTO_INCREMENT = 400000;;
+
+CREATE TABLE employee (
+    code BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    user_id BIGINT UNIQUE,
+    department_id BIGINT,
+    CONSTRAINT fk_employee_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_employee_department FOREIGN KEY (department_id) REFERENCES department(code)
+)AUTO_INCREMENT = 400000;
+
 
 CREATE TABLE course (
     code BIGINT NOT NULL AUTO_INCREMENT,
@@ -39,8 +49,8 @@ CREATE TABLE course (
     department_code BIGINT,
     PRIMARY KEY (code),
     CONSTRAINT fk_course_department FOREIGN KEY (department_code)
-        REFERENCES department(code)
-);
+        REFERENCES department(code) ON DELETE CASCADE
+)AUTO_INCREMENT = 400000;
 
 CREATE TABLE teacher (
      code BIGINT NOT NULL AUTO_INCREMENT,
@@ -48,15 +58,15 @@ CREATE TABLE teacher (
      birth_date DATE NOT NULL,
      hire_date DATE NOT NULL,
      user_id BIGINT UNIQUE,
-     CPF VARCHAR(255) NOT NULL UNIQUE,
+     CPF VARCHAR(14) NOT NULL UNIQUE,
      department_id BIGINT,
      PRIMARY KEY (code),
      CONSTRAINT fk_teacher_department FOREIGN KEY (department_id)
-         REFERENCES department(code),
+         REFERENCES department(code) ON DELETE CASCADE,
      CONSTRAINT fk_teacher_user FOREIGN KEY (user_id)
          REFERENCES users(id)
-         ON DELETE SET NULL
-);
+         ON DELETE CASCADE
+)AUTO_INCREMENT = 400000;
 
 CREATE TABLE student (
     code BIGINT NOT NULL AUTO_INCREMENT,
@@ -70,8 +80,8 @@ CREATE TABLE student (
         REFERENCES course(code),
     CONSTRAINT fk_student_user FOREIGN KEY (user_id)
         REFERENCES users(id)
-        ON DELETE SET NULL
-);
+        ON DELETE CASCADE
+)AUTO_INCREMENT = 400000;
 
 CREATE TABLE student_undergraduate (
     code BIGINT NOT NULL,
@@ -85,7 +95,6 @@ CREATE TABLE student_undergraduate (
 CREATE TABLE student_post_graduate (
     code BIGINT NOT NULL,
     advisor_id BIGINT,
-    PRIMARY KEY (code),
     CONSTRAINT fk_postgraduate_student FOREIGN KEY (code)
       REFERENCES student(code)
       ON DELETE CASCADE,
@@ -110,7 +119,7 @@ CREATE TABLE phone (
     student_code BIGINT,
     PRIMARY KEY (id),
     CONSTRAINT fk_phone_student FOREIGN KEY (student_code)
-       REFERENCES student(code)
+       REFERENCES student(code) ON DELETE CASCADE
 );
 
 CREATE TABLE subject (
@@ -122,7 +131,7 @@ CREATE TABLE subject (
     PRIMARY KEY (code),
     type_subject ENUM('OBLIGATORY', 'OPTIONAL') NOT NULL,
     CONSTRAINT fk_subject_course FOREIGN KEY (course_code)
-     REFERENCES course(code)
+     REFERENCES course(code) ON DELETE CASCADE
 );
 
 CREATE TABLE subject_prerequisites (
@@ -143,24 +152,16 @@ CREATE TABLE enrollment (
     subject_code BIGINT,
     final_grade FLOAT,
     attendance FLOAT,
+    status_enrollment ENUM('IN_PROGRESS', 'FINISHED') NOT NULL,
     PRIMARY KEY (code),
     CONSTRAINT fk_enrollment_student FOREIGN KEY (student_code)
-        REFERENCES student(code),
+        REFERENCES student(code) ON DELETE CASCADE,
     CONSTRAINT fk_enrollment_subject FOREIGN KEY (subject_code)
-        REFERENCES subject(code)
+        REFERENCES subject(code) ON DELETE CASCADE
 );
-
-CREATE TABLE previous_courses (
-    student_id BIGINT NOT NULL,
-    previous_courses VARCHAR(255),
-    CONSTRAINT fk_prev_courses_student FOREIGN KEY (student_id)
-      REFERENCES student_post_graduate(code)
-      ON DELETE CASCADE
-);
-
 CREATE TABLE teacher_emails (
     teacher_id BIGINT NOT NULL,
-    email VARCHAR(255),
+    email VARCHAR(100),
     PRIMARY KEY (teacher_id, email),
     CONSTRAINT fk_teacher_emails FOREIGN KEY (teacher_id)
         REFERENCES teacher(code)
@@ -180,13 +181,6 @@ CREATE TABLE teacher_subjects (
     teacher_id BIGINT NOT NULL,
     subject_id BIGINT NOT NULL,
     PRIMARY KEY (teacher_id, subject_id),
-    FOREIGN KEY (teacher_id) REFERENCES teacher(code),
-    FOREIGN KEY (subject_id) REFERENCES subject(code)
+    FOREIGN KEY (teacher_id) REFERENCES teacher(code) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subject(code) ON DELETE CASCADE
 );
-
-
-ALTER TABLE student AUTO_INCREMENT = 400000;
-ALTER TABLE users AUTO_INCREMENT = 400000;
-ALTER TABLE department AUTO_INCREMENT = 400000;
-ALTER TABLE course AUTO_INCREMENT = 400000;
-ALTER TABLE teacher AUTO_INCREMENT = 400000;
