@@ -46,7 +46,7 @@ public class Student {
     @JsonIgnore
     private List<Enrollment> enrollments;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id", unique = true)
-    private User user;
+    private AppUser user;
 }

@@ -1,6 +1,6 @@
 package com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto;
 
-import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
+import com.marcelo721.AcademicManagementSystem.entities.Enums.StatusEnrollment;
 import jakarta.validation.constraints.NotNull;
 
 public record EnrollmentCreateDto(

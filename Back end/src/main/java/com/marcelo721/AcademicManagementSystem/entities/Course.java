@@ -1,6 +1,7 @@
 package com.marcelo721.AcademicManagementSystem.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,17 +31,18 @@ public class Course {
     private Integer minCredits;
 
     // Estudantes matriculados no curso
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
     @JsonIgnore
-    private List<StudentPostGraduate> students;
+    private List<Student> students;
 
     //disciplinas do curso
-    @OneToMany( mappedBy = "course",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany( mappedBy = "course",cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
     @JsonIgnore
     private List<Subject> subjects;
 
     //departamento a qual o curso pertence
     @ManyToOne
     @JoinColumn(name = "department_code")
+    @JsonBackReference
     private Department department;
 }

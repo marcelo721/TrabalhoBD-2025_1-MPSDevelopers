@@ -1,5 +1,6 @@
 package com.marcelo721.AcademicManagementSystem.entities;
 
+import com.marcelo721.AcademicManagementSystem.entities.Enums.StatusEnrollment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,10 @@ public class Enrollment {
     // disciplina que está associada a matricula
     @ManyToOne
     private Subject subject;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_enrollment", nullable = false)
+    private StatusEnrollment enrollmentStatus;
 
     // nota final na disciplina
     @Column(name = "final_grade")

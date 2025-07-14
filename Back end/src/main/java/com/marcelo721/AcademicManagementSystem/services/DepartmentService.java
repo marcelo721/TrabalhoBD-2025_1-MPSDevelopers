@@ -1,6 +1,8 @@
 package com.marcelo721.AcademicManagementSystem.services;
 
+import com.marcelo721.AcademicManagementSystem.entities.Course;
 import com.marcelo721.AcademicManagementSystem.entities.Department;
+import com.marcelo721.AcademicManagementSystem.repositories.CourseRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.DepartmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.List;
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final CourseRepository courseRepository;
 
     @Transactional(readOnly = true)
     public List<Department> getAllDepartments() {
@@ -29,5 +32,17 @@ public class DepartmentService {
     @Transactional
     public Department save(Department department) {
         return departmentRepository.save(department);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Course> findByDepartmentID(Long departmentID) {
+        departmentRepository.findById(departmentID).orElseThrow(() -> new EntityNotFoundException("Department not found"));
+        return courseRepository.findByDepartment(departmentID);
+    }
+
+    @Transactional
+    public void deleteById(Long departmentID) {
+        departmentRepository.findById(departmentID).orElseThrow(() -> new EntityNotFoundException("Department not found"));
+        departmentRepository.deleteById(departmentID);
     }
 }

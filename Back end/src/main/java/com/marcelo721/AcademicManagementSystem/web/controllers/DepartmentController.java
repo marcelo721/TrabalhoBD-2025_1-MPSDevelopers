@@ -1,7 +1,9 @@
 package com.marcelo721.AcademicManagementSystem.web.controllers;
 
+import com.marcelo721.AcademicManagementSystem.entities.Course;
 import com.marcelo721.AcademicManagementSystem.entities.Department;
 import com.marcelo721.AcademicManagementSystem.services.DepartmentService;
+import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseResponseDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentResponseDto;
 import jakarta.validation.Valid;
@@ -38,5 +40,18 @@ public class DepartmentController {
     public ResponseEntity<List<DepartmentResponseDto>> getAll() {
         List<Department> departments = departmentService.getAllDepartments();
         return ResponseEntity.ok(DepartmentResponseDto.toListDto(departments));
+    }
+
+    @GetMapping("/department-courses/{code}")
+    public ResponseEntity<List<CourseResponseDto>> getDepartmentCourses(@PathVariable Long code) {
+        List<Course> courses = departmentService.findByDepartmentID(code);
+
+        return ResponseEntity.ok(CourseResponseDto.toListDto(courses));
+    }
+
+    @DeleteMapping("/{departmentId}")
+    public ResponseEntity<Void> deleteDepartment(@PathVariable @Valid Long departmentId) {
+        departmentService.deleteById(departmentId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -17,6 +17,12 @@ public record StudentCreateDto(
         LocalDate admissionYear,
 
         List<String> previousCourses,
-        Long advisorId
+        Long advisorId,
+
+        @NotBlank
+        String password,
+
+        @NotBlank
+        String login
 ) {
 }
