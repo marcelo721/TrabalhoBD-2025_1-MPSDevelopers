@@ -1,37 +1,29 @@
+-- Para não ter problemas se já existir um database com o mesmo nome
 DROP DATABASE IF EXISTS academic_management;
+
+-- criação do banco 
 CREATE DATABASE academic_management;
 USE academic_management;
 
-DROP TABLE IF EXISTS teacher_subjects;
-DROP TABLE IF EXISTS teacher_phones;
-DROP TABLE IF EXISTS teacher_emails;
-DROP TABLE IF EXISTS previous_courses;
-DROP TABLE IF EXISTS enrollment;
-DROP TABLE IF EXISTS subject_prerequisites;
-DROP TABLE IF EXISTS subject;
-DROP TABLE IF EXISTS phone;
-DROP TABLE IF EXISTS student_post_graduate;
-DROP TABLE IF EXISTS student_under_graduate;
-DROP TABLE IF EXISTS student;
-DROP TABLE IF EXISTS teacher;
-DROP TABLE IF EXISTS course;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS department;
-
+-- tabela de departamento
 CREATE TABLE department (
     code BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (code)
 )AUTO_INCREMENT = 400000;
 
+
+-- tabela de usuários. todos os Professores, funcionários, alunos e admins terão que ter um user para usar como login 
 CREATE TABLE users (
     id BIGINT NOT NULL AUTO_INCREMENT,
     login VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
     role_user ENUM('TEACHER', 'STUDENT', 'EMPLOYEE', 'ADMIN') NOT NULL,
     PRIMARY KEY (id)
-)AUTO_INCREMENT = 400000;;
+)AUTO_INCREMENT = 400000;
 
+
+-- tabela de Empregados
 CREATE TABLE employee (
     code BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -42,6 +34,7 @@ CREATE TABLE employee (
 )AUTO_INCREMENT = 400000;
 
 
+-- Tabela de cursos 
 CREATE TABLE course (
     code BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
@@ -52,6 +45,7 @@ CREATE TABLE course (
         REFERENCES department(code) ON DELETE CASCADE
 )AUTO_INCREMENT = 400000;
 
+-- Tabela de professores
 CREATE TABLE teacher (
      code BIGINT NOT NULL AUTO_INCREMENT,
      name VARCHAR(255) NOT NULL,
@@ -68,6 +62,8 @@ CREATE TABLE teacher (
          ON DELETE CASCADE
 )AUTO_INCREMENT = 400000;
 
+
+-- Tabela de estudantes. Não define o tipo do Estudante outra tabela será responsável pelo tipo do estudante
 CREATE TABLE student (
     code BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(70) NOT NULL,
@@ -83,6 +79,7 @@ CREATE TABLE student (
         ON DELETE CASCADE
 )AUTO_INCREMENT = 400000;
 
+-- Tabela que faz associação com a Tabela Estudante quando o mesmo é Estudante de Graduação
 CREATE TABLE student_undergraduate (
     code BIGINT NOT NULL,
     admission_year DATE NOT NULL,
@@ -92,6 +89,7 @@ CREATE TABLE student_undergraduate (
        ON DELETE CASCADE
 );
 
+-- Tabela que faz associação com a Tabela Estudante quando o mesmo é Estudante de Pós-Graduação
 CREATE TABLE student_post_graduate (
     code BIGINT NOT NULL,
     advisor_id BIGINT,
@@ -102,6 +100,7 @@ CREATE TABLE student_post_graduate (
       REFERENCES teacher(code)
 );
 
+-- Tabela que guarda a lista de cursos já cursados pelos estudantes de pós-graduação
 CREATE TABLE postgraduate_previous_courses (
     student_code BIGINT NOT NULL,
     subject_name VARCHAR(255) NOT NULL,
@@ -111,7 +110,7 @@ CREATE TABLE postgraduate_previous_courses (
        ON DELETE CASCADE
 );
 
-
+-- Tabela que armazena os Telefones dos estudantes 
 CREATE TABLE phone (
     id BIGINT NOT NULL AUTO_INCREMENT,
     description VARCHAR(100) NOT NULL,
@@ -122,6 +121,7 @@ CREATE TABLE phone (
        REFERENCES student(code) ON DELETE CASCADE
 );
 
+-- Tabela que armazena as disciplinas dos cursos 
 CREATE TABLE subject (
     code BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -134,6 +134,7 @@ CREATE TABLE subject (
      REFERENCES course(code) ON DELETE CASCADE
 );
 
+-- Tabela que armazena os pré requisitos de cada disciplina 
 CREATE TABLE subject_prerequisites (
     subject_code BIGINT NOT NULL,
     prerequisite_code BIGINT NOT NULL,
@@ -146,6 +147,7 @@ CREATE TABLE subject_prerequisites (
        ON DELETE CASCADE
 );
 
+-- Tabela que associa um estudante a uma disciplina ou seja, quando um estudante eestá matriculado em uma determinada disciplina
 CREATE TABLE enrollment (
     code BIGINT NOT NULL AUTO_INCREMENT,
     student_code BIGINT,
@@ -159,6 +161,8 @@ CREATE TABLE enrollment (
     CONSTRAINT fk_enrollment_subject FOREIGN KEY (subject_code)
         REFERENCES subject(code) ON DELETE CASCADE
 );
+
+-- Tabela que armazena os e-mails dos professores 
 CREATE TABLE teacher_emails (
     teacher_id BIGINT NOT NULL,
     email VARCHAR(100),
@@ -168,6 +172,7 @@ CREATE TABLE teacher_emails (
         ON DELETE CASCADE
 );
 
+-- Tabela que armazena o telefone dos professores
 CREATE TABLE teacher_phones (
     teacher_id BIGINT NOT NULL,
     phone VARCHAR(20),
@@ -177,6 +182,8 @@ CREATE TABLE teacher_phones (
         ON DELETE CASCADE
 );
 
+
+-- tabela que armazena as disciplinas leionadas pelos professores 
 CREATE TABLE teacher_subjects (
     teacher_id BIGINT NOT NULL,
     subject_id BIGINT NOT NULL,
