@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,18 +23,21 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody @Valid EnrollmentCreateDto dto) {
         enrollmentService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping("/{id}")
     public ResponseEntity<EnrollmentResponseDto> findById(@PathVariable Long id) {
         Enrollment obj = enrollmentService.findById(id);
         return ResponseEntity.ok(EnrollmentResponseDto.toDto(obj));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping()
     public ResponseEntity<List<EnrollmentResponseDto>> getAll() {
         List<Enrollment> obj = enrollmentService.findAll();

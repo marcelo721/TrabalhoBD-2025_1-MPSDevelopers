@@ -55,6 +55,11 @@ public class TeacherService {
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found with user id: " + userId));
     }
 
+    @Transactional(readOnly = true)
+    public List<Teacher> findAllByDepartmentId(Long departmentId) {
+        departmentService.getDepartmentById(departmentId);
+        return teacherRepository.findAllByDepartmentCode(departmentId);
+    }
 
 
 }

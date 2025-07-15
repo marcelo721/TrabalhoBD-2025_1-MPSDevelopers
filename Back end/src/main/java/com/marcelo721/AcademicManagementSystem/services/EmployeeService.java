@@ -65,7 +65,12 @@ public class EmployeeService {
         if (department != null) {
             department.getEmployees().remove(employee);
         }
-
         employeeRepository.delete(employee);
+    }
+
+    @Transactional
+    public List<Employee> findAllByDepartmentCode( Long departmentId) {
+        departmentService.findByDepartmentID(departmentId);
+        return employeeRepository.findAllByDepartmentCode(departmentId);
     }
 }

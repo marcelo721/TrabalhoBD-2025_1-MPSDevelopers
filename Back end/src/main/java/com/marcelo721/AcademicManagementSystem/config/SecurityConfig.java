@@ -37,11 +37,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/teachers").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/students/postgraduate").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/students/undergraduate").permitAll()
-
-                        .requestMatchers(HttpMethod.POST, "/api/v1/employees").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
                         .anyRequest().authenticated()
                 )

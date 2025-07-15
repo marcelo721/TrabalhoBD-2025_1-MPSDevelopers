@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,48 +26,56 @@ public class CourseController {
 
     private final CourseService courseService;
 
+    @PreAuthorize("@checker.canCreateCourse(#dto)")
     @PostMapping
     public ResponseEntity<Void> CreateCourse(@RequestBody @Valid CourseCreateDto dto) {
         courseService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping("/{id}")
     public ResponseEntity<CourseResponseDto> findById(@PathVariable Long id) {
         Course obj = courseService.findById(id);
         return ResponseEntity.ok(CourseResponseDto.toDto(obj));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping()
     public ResponseEntity<List<CourseResponseDto>> getAll() {
         List<Course> courses = courseService.findAll();
         return ResponseEntity.ok(CourseResponseDto.toListDto(courses));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping("/obligatory-subjects/{courseCode}")
-    public ResponseEntity<List<SubjectResponseDto>>findObligatorySubjectsByCourseCode (@PathVariable Long courseCode) {
+    public ResponseEntity<List<SubjectResponseDto>>findObligatorySubjectsByCourseCode(@PathVariable Long courseCode) {
         List<Subject> subjects = courseService.findObligatorySubjectsByCourseCode(courseCode);
         return ResponseEntity.ok(SubjectResponseDto.toListDto(subjects));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping("/optional-subjects/{courseCode}")
     public ResponseEntity<List<SubjectResponseDto>>findOptionalSubjectsByCourseCode (@PathVariable Long courseCode) {
         List<Subject> subjects = courseService.findOptionalSubjectsByCourseCode(courseCode);
         return ResponseEntity.ok(SubjectResponseDto.toListDto(subjects));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping("/students-course/{courseCode}")
     public ResponseEntity<List<StudentResponseDto>>findStudentsCourseByCourseCode (@PathVariable Long courseCode) {
         List<Student> students = courseService.findStudentsByCourseCode(courseCode);
         return ResponseEntity.ok(StudentResponseDto.fromStudents(students));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping("/completed-all-mandatory/{courseCode}")
     public ResponseEntity<List<StudentResponseDto>> findStudentsCompletedMandatoryByCourseCode (@PathVariable Long courseCode) {
         List<Student> students = courseService.findStudentsByCourseCode(courseCode);
         return ResponseEntity.ok(StudentResponseDto.fromStudents(students));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")//tested
     @DeleteMapping("{courseId}")
     public ResponseEntity<Void> deleteById(@PathVariable Long courseId) {
         courseService.deleteCourseById(courseId);

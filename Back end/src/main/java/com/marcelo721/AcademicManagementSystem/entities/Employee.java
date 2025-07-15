@@ -31,5 +31,4 @@ public class Employee {
     @JoinColumn(name = "department_id")
     @JsonBackReference
     private Department department;
-
 }
