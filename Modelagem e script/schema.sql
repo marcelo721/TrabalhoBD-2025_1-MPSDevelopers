@@ -1,9 +1,9 @@
 -- Para não ter problemas se já existir um database com o mesmo nome
-DROP DATABASE IF EXISTS academic_management;
+DROP DATABASE IF EXISTS Equipe554557;
 
 -- criação do banco 
-CREATE DATABASE academic_management;
-USE academic_management;
+CREATE DATABASE Equipe554557;
+USE Equipe554557;
 
 -- tabela de departamento
 CREATE TABLE department (
