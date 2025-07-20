@@ -1,9 +1,7 @@
 package com.marcelo721.AcademicManagementSystem.repositories;
 
-import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
 import com.marcelo721.AcademicManagementSystem.entities.Student;
 import com.marcelo721.AcademicManagementSystem.entities.StudentPostGraduate;
-import com.marcelo721.AcademicManagementSystem.entities.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,12 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+//Herda todos os métodos CRUD (findAll, findById, save, delete etc.), responsável por se comunicar com o banco de dados
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
+    // método responsável por encontrar um estudante pelo id do user associado
     Optional<Student> findByUserId(Long userId);
 
+    // encontrar todos os estudantes matriculados em um determinado curso
     List<Student> findByCourseCode(Long courseCode);
 
+    // encontra todos os estudantes que já completaram todas as disciplinas obrigatórias do curso
     @Query(value = "SELECT s.* FROM student s " +
             "WHERE s.course_code = :courseCode " +
             "AND NOT EXISTS (" +
@@ -34,6 +36,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             ")", nativeQuery = true)
     List<Student> findStudentsWhoCompletedAllMandatorySubjects(@Param("courseCode") Long courseCode);
 
+
+    // encontra todos os estudantes que ainda não terminaram nenhuma obrigatória
     @Query(value = "SELECT s.* FROM student s " +
             "WHERE s.course_code = :courseCode " +
             "AND NOT EXISTS (" +
@@ -45,5 +49,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             ")", nativeQuery = true)
     List<Student> findStudentsWhoDidNotTakeAnyOptionalSubjects(@Param("courseCode") Long courseCode);
 
+
+    // encontrar os estudantes que são alunos de pós pelo código do orientador
     List<StudentPostGraduate> findByAdvisorId(Long advisorId);
 }
