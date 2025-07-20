@@ -1,4 +1,4 @@
-USE academic_management;
+USE Equipe554557;
 
 -- Inserir departamentos
 INSERT INTO department (name) VALUES 
@@ -21,7 +21,6 @@ INSERT INTO users (login, password, role_user) VALUES
 ('Ana_Sarah', 'senha123', 'EMPLOYEE'),
 ('Pamela_Maria', 'senha123', 'EMPLOYEE'),
 
-
 -- Inserir Professores
 ('Carlos_Magno', 'senha123', 'TEACHER'),
 ('Ana_Paula', 'senha123', 'TEACHER'),
@@ -41,9 +40,6 @@ INSERT INTO users (login, password, role_user) VALUES
 ('Julio_Cesar', 'senha123', 'STUDENT'),
 ('Pablo_Henrique', 'senha123', 'STUDENT');
 
-
-
-
 -- Inserir funcionários
 INSERT INTO employee (name, user_id, department_id) VALUES 
 ('João Silva', 400002, 400000),
@@ -51,7 +47,6 @@ INSERT INTO employee (name, user_id, department_id) VALUES
 ('Marcelo Henrique de sousa', 400004, 400001),
 ('Ana Sarah Magalhães', 400005, 400001),
 ('Pamela Maria Frota', 400006, 400001);
-
 
 -- Inserir cursos
 INSERT INTO course (name, min_credits, department_code) VALUES 
@@ -70,7 +65,6 @@ INSERT INTO teacher (name, birth_date, hire_date, user_id, CPF, department_id) V
 ('Roberto Santos', '1975-11-30', '2008-02-20', 400009, '333.333.333-33', 400002),
 ('Fernanda Lima', '1982-03-25', '2015-09-05', 400010, '444.444.444-44', 400003),
 ('Rui Vigelis', '1990-03-25', '2019-09-05', 400011, '555.555.555-55', 400000);
-
 
 -- Inserir emails dos professores
 INSERT INTO teacher_emails (teacher_id, email) VALUES 
@@ -102,7 +96,6 @@ INSERT INTO student (name, address, course_code, user_id, student_type) VALUES
 ('Julio Cesar Saldanha', 'Av. F, 303 - São Paulo', 400006, 400020, 'POSTGRADUATE'),
 ('Pablo Henrique de Sousa', 'Av. F, 303 - São Paulo', 400006, 400021, 'UNDERGRADUATE');
 
-
 -- Inserir os alunos de graduação
 INSERT INTO student_undergraduate (code, admission_year) VALUES 
 (400000, '2020-03-01'),
@@ -110,7 +103,6 @@ INSERT INTO student_undergraduate (code, admission_year) VALUES
 (400002, '2019-03-12'),
 (400003, '2022-03-03'),
 (400009, '2021-03-02');
-
 
 -- Inserir os alunos de pós-graduação
 INSERT INTO student_post_graduate (code, advisor_id) VALUES 
@@ -188,10 +180,6 @@ INSERT INTO teacher_subjects (teacher_id, subject_id) VALUES
 (400001, 13), -- Ana ensina Tópicos Avançados em IA
 (400001, 14), -- Ana ensina Pesquisa em Computação
 (400004, 15); -- Ana ensina Física Teórica Avançada
-
-
-
-
 
 -- Inserir matrículas
 INSERT INTO enrollment (student_code, subject_code, final_grade, attendance, status_enrollment) VALUES 
