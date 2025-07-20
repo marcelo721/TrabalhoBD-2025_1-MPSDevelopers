@@ -1,6 +1,10 @@
 package com.marcelo721.AcademicManagementSystem.web.controllers;
 
 import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
+import com.marcelo721.AcademicManagementSystem.entities.Student;
+import com.marcelo721.AcademicManagementSystem.entities.Subject;
+import com.marcelo721.AcademicManagementSystem.repositories.StudentRepository;
+import com.marcelo721.AcademicManagementSystem.repositories.SubjectRepository;
 import com.marcelo721.AcademicManagementSystem.services.EnrollmentService;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentResponseDto;
@@ -21,7 +25,8 @@ import java.util.List;
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
-
+    private final SubjectRepository subjectRepository;
+    private final StudentRepository studentRepository;
 
     @PreAuthorize("hasRole('ADMIN')")//tested
     @PostMapping

@@ -1,6 +1,9 @@
 package com.marcelo721.AcademicManagementSystem.repositories;
 
+import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
 import com.marcelo721.AcademicManagementSystem.entities.Student;
+import com.marcelo721.AcademicManagementSystem.entities.StudentPostGraduate;
+import com.marcelo721.AcademicManagementSystem.entities.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,4 +45,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             ")", nativeQuery = true)
     List<Student> findStudentsWhoDidNotTakeAnyOptionalSubjects(@Param("courseCode") Long courseCode);
 
+    List<StudentPostGraduate> findByAdvisorId(Long advisorId);
 }

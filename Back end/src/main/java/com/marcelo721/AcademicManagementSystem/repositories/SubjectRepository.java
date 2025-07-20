@@ -13,4 +13,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     @Query(value = "select s.* from subject s JOIN course c ON s.course_code = c.code where :codeCourse = c.code AND s.type_subject = 'OPTIONAL'", nativeQuery = true)
     List<Subject> findOptionalSubjectsByCourseCode(Long codeCourse);
+
+    List<Subject> findByTeachersId(Long teacherId);
 }

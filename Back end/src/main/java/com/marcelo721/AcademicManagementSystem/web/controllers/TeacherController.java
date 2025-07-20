@@ -50,4 +50,9 @@ public class TeacherController {
         List<Teacher> teachers = teacherService.findAllByDepartmentId(departmentId);
         return ResponseEntity.ok(TeacherResponseDto.toListDto(teachers));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        teacherService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

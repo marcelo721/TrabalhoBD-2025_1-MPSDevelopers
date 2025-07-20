@@ -19,9 +19,9 @@ public record StudentResponseDto(
 ) {
 
     // DTO para Phone para evitar recursão
-    public record PhoneDto(Long id, String number) {
+    public record PhoneDto( String number, String description) {
         public static PhoneDto fromEntity(Phone phone) {
-            return new PhoneDto(phone.getId(), phone.getNumber());
+            return new PhoneDto(phone.getNumber(), phone.getDescription());
         }
     }
 
