@@ -13,12 +13,5 @@ public class TestConfig implements CommandLineRunner {
     private final UserService userService;
     @Override
     public void run(String... args) throws Exception {
-
-        AppUser appUser = userService.findByLogin("admin");
-        if (appUser == null && appUser.getLogin() != "admin") {
-            appUser = new AppUser();
-            appUser.setLogin("admin");
-            appUser.setPassword("root");
-        }
     }
 }
