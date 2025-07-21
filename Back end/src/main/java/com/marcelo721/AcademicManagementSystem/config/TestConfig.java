@@ -1,7 +1,6 @@
 package com.marcelo721.AcademicManagementSystem.config;
 
 import com.marcelo721.AcademicManagementSystem.entities.AppUser;
-import com.marcelo721.AcademicManagementSystem.entities.Enums.RoleUser;
 import com.marcelo721.AcademicManagementSystem.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -15,12 +14,11 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        AppUser appUser = new AppUser();
-        appUser.setRole(RoleUser.ADMIN);
-        appUser.setLogin("adminPamy");
-        appUser.setPassword("root");
-
-        userService.save(appUser);
-
+        AppUser appUser = userService.findByLogin("admin");
+        if (appUser == null && appUser.getLogin() != "admin") {
+            appUser = new AppUser();
+            appUser.setLogin("admin");
+            appUser.setPassword("root");
+        }
     }
 }

@@ -48,4 +48,11 @@ public class EnrollmentController {
         List<Enrollment> obj = enrollmentService.findAll();
         return ResponseEntity.ok(EnrollmentResponseDto.toListDto(obj));
     }
+
+    @PreAuthorize("@checker.verifyAccessToStudent(#codeStudent)")
+    @GetMapping("/students-enrollments/{codeStudent}")
+    public ResponseEntity<List<EnrollmentResponseDto>> findAllByStudentCode(@PathVariable Long codeStudent) {
+        List<Enrollment> enrollments = enrollmentService.findAllEnrollmentsByStudentId(codeStudent);
+        return ResponseEntity.ok(EnrollmentResponseDto.toListDto(enrollments));
+    }
 }

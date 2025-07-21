@@ -64,4 +64,9 @@ public class EnrollmentService {
         subject.getEnrollments().remove(enrollment);
         enrollmentRepository.delete(enrollment);
     }
+
+    public List<Enrollment> findAllEnrollmentsByStudentId(Long idStudent) {
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException("Student Not Found"));
+        return student.getEnrollments();
+    }
 }

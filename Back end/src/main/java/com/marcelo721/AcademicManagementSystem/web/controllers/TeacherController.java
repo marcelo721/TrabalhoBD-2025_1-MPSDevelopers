@@ -30,7 +30,7 @@ public class TeacherController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")//tested
+    @PreAuthorize("@checker.verifyAccessToEmployeeFindTeacherById(#id)")//tested
     @GetMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> findById(@PathVariable Long id) {
         Teacher obj = teacherService.findById(id);
