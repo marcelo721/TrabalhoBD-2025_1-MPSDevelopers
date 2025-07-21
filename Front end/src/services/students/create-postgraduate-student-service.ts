@@ -9,8 +9,6 @@ type CreatePostgraduateStudentServiceRequest = {
     number: string
     description: string
   }[]
-  admissionYear: string
-
   password: string
   username: string
 }
@@ -21,7 +19,6 @@ export async function createPostgraduateStudentService({
   courseCode,
   advisorId,
   phones,
-  admissionYear,
   password,
   username,
 }: CreatePostgraduateStudentServiceRequest) {
@@ -31,7 +28,6 @@ export async function createPostgraduateStudentService({
     courseCode,
     advisorId,
     phones,
-    admissionYear,
     password,
     login: username,
   })
