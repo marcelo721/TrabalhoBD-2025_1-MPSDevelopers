@@ -1,5 +1,6 @@
 package com.marcelo721.AcademicManagementSystem.web.exceptions;
 
+import com.marcelo721.AcademicManagementSystem.services.exceptions.EnrollmentAlreadyCreatedException;
 import com.marcelo721.AcademicManagementSystem.services.exceptions.ExpiredTokenException;
 import com.marcelo721.AcademicManagementSystem.services.exceptions.PasswordInvalidException;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
@@ -167,6 +171,17 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST,ex.getMessage()));
+
+    }
+
+    @ExceptionHandler(EnrollmentAlreadyCreatedException.class)
+    public ResponseEntity<ErrorMessage> enrollmentAlreadyCreatedException(RuntimeException ex,
+                                                                 HttpServletRequest request){
+        log.error("Api Error", ex);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT,ex.getMessage()));
 
     }
 }

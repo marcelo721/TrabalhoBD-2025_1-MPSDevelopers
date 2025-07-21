@@ -74,5 +74,4 @@ public class SubjectService {
         disconnectSubject(subject);
         subjectRepository.delete(subject);
     }
-
 }

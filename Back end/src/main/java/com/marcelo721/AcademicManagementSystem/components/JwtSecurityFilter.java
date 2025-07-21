@@ -20,6 +20,12 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+/*Esse componente JwtSecurityFilter é um
+filtro de segurança personalizado que intercepta todas as requisições HTTP para
+Autenticar usuários com base em um token JWT presente no cabeçalho Authorization.
+Ele funciona como parte da autenticação com token JWT no Spring Security,
+substituindo sessões tradicionais por um token que é verificado a cada requisição
+ */
 public class JwtSecurityFilter extends OncePerRequestFilter {
 
     private final UserRepository userRepository;

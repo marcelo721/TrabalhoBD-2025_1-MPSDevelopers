@@ -6,6 +6,7 @@ import com.marcelo721.AcademicManagementSystem.entities.Student;
 import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.repositories.EnrollmentRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.StudentRepository;
+import com.marcelo721.AcademicManagementSystem.services.exceptions.EnrollmentAlreadyCreatedException;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentCreateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,11 @@ public class EnrollmentService {
         Subject subject = subjectService.findById(dto.subjectId());
         enrollment.setSubject(subject);
 
-        enrollmentRepository.save(enrollment);
+        if (!enrollmentRepository.existsEnrollmentByStudentIdAndSubjectCode(dto.studentId(), dto.subjectId())) {
+            enrollmentRepository.save(enrollment);
+        }else {
+            throw new EnrollmentAlreadyCreatedException("Enrollment already exists");
+        }
     }
 
     @Transactional(readOnly = true)
@@ -58,5 +63,10 @@ public class EnrollmentService {
         student.getEnrollments().remove(enrollment);
         subject.getEnrollments().remove(enrollment);
         enrollmentRepository.delete(enrollment);
+    }
+
+    public List<Enrollment> findAllEnrollmentsByStudentId(Long idStudent) {
+        Student student = studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException("Student Not Found"));
+        return student.getEnrollments();
     }
 }

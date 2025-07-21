@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class Enrollment {
 
-    // código da matricula de um aluno
+    // Identificador único da matrícula
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "code", unique = true, nullable = false)

@@ -30,7 +30,7 @@ public class TeacherController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")//tested
+    @PreAuthorize("@checker.verifyAccessToEmployeeFindTeacherById(#id)")//tested
     @GetMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> findById(@PathVariable Long id) {
         Teacher obj = teacherService.findById(id);
@@ -49,5 +49,10 @@ public class TeacherController {
     public ResponseEntity<List<TeacherResponseDto>> getAllByDepartmentId(@PathVariable Long departmentId) {
         List<Teacher> teachers = teacherService.findAllByDepartmentId(departmentId);
         return ResponseEntity.ok(TeacherResponseDto.toListDto(teachers));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        teacherService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

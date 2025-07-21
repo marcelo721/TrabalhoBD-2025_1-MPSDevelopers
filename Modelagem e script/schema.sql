@@ -30,7 +30,9 @@ CREATE TABLE employee (
     user_id BIGINT UNIQUE,
     department_id BIGINT,
     CONSTRAINT fk_employee_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_employee_department FOREIGN KEY (department_id) REFERENCES department(code)
+    CONSTRAINT fk_employee_department FOREIGN KEY (department_id) 
+    REFERENCES department(code) 
+    ON DELETE CASCADE -- alteração 
 )AUTO_INCREMENT = 400000;
 
 
@@ -42,7 +44,7 @@ CREATE TABLE course (
     department_code BIGINT,
     PRIMARY KEY (code),
     CONSTRAINT fk_course_department FOREIGN KEY (department_code)
-        REFERENCES department(code) ON DELETE CASCADE
+        REFERENCES department(code) ON DELETE CASCADE -- alteração 
 )AUTO_INCREMENT = 400000;
 
 -- Tabela de professores
@@ -56,7 +58,8 @@ CREATE TABLE teacher (
      department_id BIGINT,
      PRIMARY KEY (code),
      CONSTRAINT fk_teacher_department FOREIGN KEY (department_id)
-         REFERENCES department(code) ON DELETE CASCADE,
+         REFERENCES department(code) 
+         ON DELETE CASCADE,
      CONSTRAINT fk_teacher_user FOREIGN KEY (user_id)
          REFERENCES users(id)
          ON DELETE CASCADE
@@ -73,7 +76,8 @@ CREATE TABLE student (
     student_type VARCHAR(31),
     PRIMARY KEY (code),
     CONSTRAINT fk_student_course FOREIGN KEY (course_code)
-        REFERENCES course(code),
+        REFERENCES course(code)
+        ON DELETE CASCADE,
     CONSTRAINT fk_student_user FOREIGN KEY (user_id)
         REFERENCES users(id)
         ON DELETE CASCADE
@@ -98,6 +102,7 @@ CREATE TABLE student_post_graduate (
       ON DELETE CASCADE,
     CONSTRAINT fk_postgraduate_advisor FOREIGN KEY (advisor_id)
       REFERENCES teacher(code)
+      ON DELETE CASCADE -- alteração 
 );
 
 -- Tabela que guarda a lista de cursos já cursados pelos estudantes de pós-graduação
