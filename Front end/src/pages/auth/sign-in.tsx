@@ -28,7 +28,7 @@ const signInFormSchema = z.object({
     .string({
       required_error: 'A senha é obrigatória',
     })
-    .min(6, 'A senha deve ter pelo menos 6 caracteres'),
+    .min(4, 'A senha deve ter pelo menos 4 caracteres'),
 })
 
 type SignInFormData = z.infer<typeof signInFormSchema>
