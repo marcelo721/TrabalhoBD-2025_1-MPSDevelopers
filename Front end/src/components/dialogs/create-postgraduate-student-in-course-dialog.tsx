@@ -27,8 +27,6 @@ import { queryClient } from '@/lib/query-client'
 import { toast } from 'sonner'
 import type { Tag } from 'emblor'
 
-import { DatePicker } from '../date-picker'
-
 import { TagInput } from '../tag-input'
 import { createPostgraduateStudentService } from '@/services/students/create-postgraduate-student-service'
 
@@ -40,8 +38,6 @@ const createPostgraduateStudentSchema = z.object({
       invalid_type_error: 'Código do orientador deve ser um número',
     })
     .min(1, 'Código do orientador é obrigatório'),
-
-  admissionYear: z.string().min(1, 'Ano de admissão é obrigatório'),
 
   password: z.string().min(4, 'Senha deve ter pelo menos 4 caracteres'),
   username: z.string().min(1, 'Nome de usuário é obrigatório'),
@@ -68,7 +64,6 @@ export function CreatePostgraduateStudentInCourseDialog({
       name: '',
       address: '',
       advisorId: 0,
-      admissionYear: '',
       password: '',
       username: '',
     },
@@ -79,7 +74,6 @@ export function CreatePostgraduateStudentInCourseDialog({
       name,
       address,
       advisorId,
-      admissionYear,
       password,
       username,
     }: CreatePostgraduateStudentFormData) => {
@@ -94,7 +88,6 @@ export function CreatePostgraduateStudentInCourseDialog({
           address,
           courseCode,
           advisorId,
-          admissionYear,
           password,
           username,
           phones: parsedPhones,
@@ -178,23 +171,7 @@ export function CreatePostgraduateStudentInCourseDialog({
                 />
               </div>
               <div className="flex gap-1">
-                <FormField
-                  control={form.control}
-                  name="admissionYear"
-                  render={({ field: { onChange, value, ...rest } }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Ano de Admissão</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          date={value}
-                          onDateChange={onChange}
-                          {...rest}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+               
                 <FormField
                   control={form.control}
 

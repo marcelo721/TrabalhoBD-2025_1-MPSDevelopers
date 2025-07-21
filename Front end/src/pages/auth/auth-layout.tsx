@@ -6,43 +6,51 @@ import marcelo2 from '@/assets/marcelo/marcelo2.jpg'
 import marcelo3 from '@/assets/marcelo/marcelo3.jpg'
 import marcelo4 from '@/assets/marcelo/marcelo4.jpg'
 import marcelo5 from '@/assets/marcelo/marcelo5.jpg'
+import pamela1 from '@/assets/pamela/pamela1.jpg'
+import pamela2 from '@/assets/pamela/pamela2.jpg'
+import sarah1 from '@/assets/sarinha/sarinha1.jpg'
+import sarah2 from '@/assets/sarinha/sarinha2.jpg'
+
+import sagui1 from '@/assets/sagui/Sagui1.jpg'
+import sagui2 from '@/assets/sagui/Sagui2.jpg' 
+import sagui3 from '@/assets/sagui/Sagui3.jpg'
+import sagui4 from '@/assets/sagui/Sagui4.jpg'
 
 const images = [
-  'https://assets.aceternity.com/cloudinary_bkp/3d-card.png',
-  'https://assets.aceternity.com/animated-modal.png',
-  'https://assets.aceternity.com/animated-testimonials.webp',
-  'https://assets.aceternity.com/cloudinary_bkp/Tooltip_luwy44.png',
-  marcelo1,
-  marcelo2,
+  sarah1,
+  sagui2,
+  sarah2,
+  sagui4,
+  pamela1,
+  sagui1,
   marcelo3,
-  marcelo4,
-
-  'https://assets.aceternity.com/carousel.webp',
-  'https://assets.aceternity.com/placeholders-and-vanish-input.png',
-  'https://assets.aceternity.com/shooting-stars-and-stars-background.png',
-  'https://assets.aceternity.com/signup-form.png',
-  'https://assets.aceternity.com/cloudinary_bkp/stars_sxle3d.png',
+  pamela1,
+  marcelo1,
+  pamela1,
+  sarah2,
+  sagui4,
+  sagui3,
   marcelo5,
-  'https://assets.aceternity.com/spotlight-new.webp',
-  'https://assets.aceternity.com/cloudinary_bkp/Spotlight_ar5jpr.png',
-  'https://assets.aceternity.com/cloudinary_bkp/Parallax_Scroll_pzlatw_anfkh7.png',
-  'https://assets.aceternity.com/tabs.png',
-  'https://assets.aceternity.com/cloudinary_bkp/Tracing_Beam_npujte.png',
-  'https://assets.aceternity.com/cloudinary_bkp/typewriter-effect.png',
-  'https://assets.aceternity.com/glowing-effect.webp',
-  'https://assets.aceternity.com/hover-border-gradient.png',
-  'https://assets.aceternity.com/cloudinary_bkp/Infinite_Moving_Cards_evhzur.png',
-  'https://assets.aceternity.com/cloudinary_bkp/Lamp_hlq3ln.png',
-  'https://assets.aceternity.com/macbook-scroll.png',
-  'https://assets.aceternity.com/cloudinary_bkp/Meteors_fye3ys.png',
-  'https://assets.aceternity.com/cloudinary_bkp/Moving_Border_yn78lv.png',
-  'https://assets.aceternity.com/multi-step-loader.png',
-  'https://assets.aceternity.com/vortex.png',
-  'https://assets.aceternity.com/wobble-card.png',
-  'https://assets.aceternity.com/world-map.webp',
-  'https://assets.aceternity.com/world-map.webp',
-  'https://assets.aceternity.com/world-map.webp',
-  'https://assets.aceternity.com/world-map.webp',
+  sarah1,
+  pamela2,
+  sagui2,
+  sagui1,
+  sagui2,
+  sagui3,
+  sagui4,
+  marcelo2,
+  sagui4,
+  sarah2,
+  pamela1,
+  sagui2,
+  sagui4,
+  sagui3,
+  marcelo4,
+  sagui3,
+  pamela1,
+  sagui4,
+  sagui1,
+  sagui2,
 ]
 
 export function AuthLayout() {
