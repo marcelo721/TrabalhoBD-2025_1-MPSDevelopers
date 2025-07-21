@@ -9,13 +9,14 @@ import java.util.List;
 public record EmployeeResponseDto(
 
         String name,
+        Long id,
         DepartmentCourseDto department
 ) {
 
     public static EmployeeResponseDto toDto(Employee employee) {
 
         DepartmentCourseDto  department = new DepartmentCourseDto(employee.getDepartment().getName(),employee.getDepartment().getCode());
-        return new EmployeeResponseDto(employee.getName(),department);
+        return new EmployeeResponseDto(employee.getName(),employee.getCode(), department);
     }
 
     public static List<EmployeeResponseDto> toListDto(List<Employee> employees) {

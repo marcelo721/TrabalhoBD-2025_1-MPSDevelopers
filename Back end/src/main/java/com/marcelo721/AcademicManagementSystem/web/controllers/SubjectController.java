@@ -36,10 +36,17 @@ public class SubjectController {
         return ResponseEntity.ok(SubjectResponseDto.toDto(obj));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")//tested
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")//tested
     public ResponseEntity<List<SubjectResponseDto>> getAll() {
         List<Subject> all = subjectService.findAll();
         return ResponseEntity.ok(SubjectResponseDto.toListDto(all));
+    }
+
+    @DeleteMapping("´/{subjectId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable Long subjectId) {
+        subjectService.deleteSubjectById(subjectId);
+        return ResponseEntity.noContent().build();
     }
 }

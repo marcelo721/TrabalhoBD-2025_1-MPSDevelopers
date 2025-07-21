@@ -25,7 +25,7 @@ public record SubjectResponseDto(
 
     public static SubjectResponseDto toDto(Subject obj) {
 
-        CourseDepartmentResponseDto courseDto = new CourseDepartmentResponseDto(obj.getName(), obj.getCode());
+        CourseDepartmentResponseDto courseDto = new CourseDepartmentResponseDto(obj.getCourse().getName(), obj.getCourse().getCode());
 
         Set<SubjectCourseResponseDto> prerequisitesDto = obj.getPrerequisites().stream().map(
                 prerequisites -> new SubjectCourseResponseDto(

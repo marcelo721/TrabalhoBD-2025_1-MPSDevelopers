@@ -94,10 +94,18 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.30</version> <!-- Coloque a versão correta -->
+
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			<!-- Plugin que gera um JAR executável com o MANIFEST correto -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
 		</plugins>
 
 	</build>

@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+// Herda todos os métodos CRUD (findAll, findById, save, delete etc.)
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
+    // método que Filtra cursos pelo código do departamento
     @Query(value = "select c.* FROM course c JOIN  department d ON c.department_code = d.code WHERE d.code = :codeDepartment" , nativeQuery = true)
     List<Course> findByDepartment(Long codeDepartment);
 }

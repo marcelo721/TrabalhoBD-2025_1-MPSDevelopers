@@ -19,6 +19,7 @@ public class StudentPostGraduate extends Student {
     @Column(name = "subject_name")
     private List<String> previousCourses = new ArrayList<>();
 
+    // orientador do aluno
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "advisor_id")
     private Teacher advisor;

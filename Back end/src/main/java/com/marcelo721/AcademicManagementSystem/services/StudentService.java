@@ -116,4 +116,11 @@ public class StudentService {
         }
         studentRepository.delete(student);
     }
+
+    @Transactional(readOnly = true)
+    public List<Enrollment> findAllEnrollmentsByStudentId(Long idStudent) {
+        findById(idStudent);
+
+        return enrollmentRepository.findAllEnrollmentsByStudentCode(idStudent);
+    }
 }

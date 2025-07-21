@@ -1,7 +1,9 @@
 package com.marcelo721.AcademicManagementSystem.web.controllers;
+import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
 import com.marcelo721.AcademicManagementSystem.entities.Student;
 import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.services.TeacherService;
+import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentResponseDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.studentDto.*;
 import com.marcelo721.AcademicManagementSystem.services.StudentService;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectResponseDto;
@@ -36,7 +38,7 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")//tested
+    @PreAuthorize("@checker.verifyAccessToStudent(#id)")//tested
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponseDto> findById(@PathVariable Long id) {
         Student student = studentService.findById(id);
@@ -69,6 +71,13 @@ public class StudentController {
     public ResponseEntity<List<SubjectResponseDto>> findCurrentEnrollment(@PathVariable Long studentCode) {
         List<Subject> response = studentService.findSubjectsCurrentlyEnrolledByStudent(studentCode);
         return ResponseEntity.ok(SubjectResponseDto.toListDto(response));
+    }
+
+    @GetMapping("/enrollments/{idStudent}")
+    public ResponseEntity<List<EnrollmentResponseDto>> findCurrentEnrollments(Long idStudent) {
+        List<Enrollment> enrollments = studentService.findAllEnrollmentsByStudentId(idStudent);
+
+        return ResponseEntity.ok(EnrollmentResponseDto.toListDto(enrollments));
     }
 
     @PreAuthorize("hasRole('ADMIN')")//tested

@@ -10,6 +10,7 @@ type CreatePostgraduateStudentServiceRequest = {
     description: string
   }[]
   admissionYear: string
+
   password: string
   username: string
 }

@@ -13,7 +13,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
+/*responsável por interceptar requisições não autenticadas que tentam acessar
+recursos protegidos quando não há autenticação válida.
+ */
 @Component
 @Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {

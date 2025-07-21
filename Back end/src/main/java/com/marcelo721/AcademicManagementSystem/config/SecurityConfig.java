@@ -22,6 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/* classe responsável por implementar beans básicos do Spring security como configurações de
+acesso a rotas, encoders de senha configuração de cors etc.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
