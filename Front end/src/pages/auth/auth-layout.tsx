@@ -6,10 +6,13 @@ import marcelo2 from '@/assets/marcelo/marcelo2.jpg'
 import marcelo3 from '@/assets/marcelo/marcelo3.jpg'
 import marcelo4 from '@/assets/marcelo/marcelo4.jpg'
 import marcelo5 from '@/assets/marcelo/marcelo5.jpg'
+import marcelo6 from '@/assets/marcelo/marcelo6.jpg'
+
 import pamela1 from '@/assets/pamela/pamela1.jpg'
 import pamela2 from '@/assets/pamela/pamela2.jpg'
 import sarah1 from '@/assets/sarinha/sarinha1.jpg'
 import sarah2 from '@/assets/sarinha/sarinha2.jpg'
+import sarah3 from '@/assets/sarinha/sarinha3.jpeg'
 
 import sagui1 from '@/assets/sagui/Sagui1.jpg'
 import sagui2 from '@/assets/sagui/Sagui2.jpg' 
@@ -22,21 +25,21 @@ const images = [
   sarah2,
   sagui4,
   pamela1,
-  sagui1,
+  marcelo4,
+  marcelo6,
   marcelo3,
   pamela1,
   marcelo1,
   pamela1,
   sarah2,
-  sagui4,
-  sagui3,
+  sarah3,
   marcelo5,
   sarah1,
   pamela2,
   sagui2,
   sagui1,
   sagui2,
-  sagui3,
+  sarah3,
   sagui4,
   marcelo2,
   sagui4,
