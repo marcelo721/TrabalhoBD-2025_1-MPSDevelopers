@@ -4,16 +4,20 @@ import com.marcelo721.AcademicManagementSystem.entities.Enrollment;
 import com.marcelo721.AcademicManagementSystem.entities.Enums.StatusEnrollment;
 import com.marcelo721.AcademicManagementSystem.entities.Student;
 import com.marcelo721.AcademicManagementSystem.entities.Subject;
+import com.marcelo721.AcademicManagementSystem.entities.Teacher;
 import com.marcelo721.AcademicManagementSystem.repositories.EnrollmentRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.StudentRepository;
+import com.marcelo721.AcademicManagementSystem.repositories.SubjectRepository;
 import com.marcelo721.AcademicManagementSystem.services.exceptions.EnrollmentAlreadyCreatedException;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentCreateDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +28,7 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final StudentRepository studentRepository;
     private final SubjectService subjectService;
+    private final SubjectRepository subjectRepository;
 
     @Transactional
     public void save(EnrollmentCreateDto dto){
@@ -68,5 +73,24 @@ public class EnrollmentService {
     public List<Enrollment> findAllEnrollmentsByStudentId(Long idStudent) {
         Student student = studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException("Student Not Found"));
         return student.getEnrollments();
+    }
+
+    public List<Enrollment> findAllBySubjectIdAndTeacherId(Long idSubject, Long idTeacher) {
+
+        List<Subject> subjects = subjectRepository.findByTeachersId(idTeacher);
+        List<Enrollment> enrollments = new ArrayList<>();
+        for (Subject subject : subjects) {
+            enrollments.addAll(subject.getEnrollments());
+        }
+        return enrollments;
+    }
+
+    @Transactional
+    public void update(EnrollmentUpdateDto dto, Long idEnrollment) {
+        Enrollment enrollment = findById(idEnrollment);
+        enrollment.setAttendance(dto.attendance());
+        enrollment.setFinalGrade(dto.finalGrade());
+        enrollment.setEnrollmentStatus(StatusEnrollment.FINISHED);
+        enrollmentRepository.save(enrollment);
     }
 }

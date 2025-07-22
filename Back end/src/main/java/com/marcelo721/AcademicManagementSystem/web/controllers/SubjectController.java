@@ -43,6 +43,7 @@ public class SubjectController {
         return ResponseEntity.ok(SubjectResponseDto.toListDto(all));
     }
 
+
     @DeleteMapping("´/{subjectId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long subjectId) {

@@ -8,6 +8,7 @@ import com.marcelo721.AcademicManagementSystem.repositories.SubjectRepository;
 import com.marcelo721.AcademicManagementSystem.services.EnrollmentService;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentResponseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.enrollmentDto.EnrollmentUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +50,24 @@ public class EnrollmentController {
         return ResponseEntity.ok(EnrollmentResponseDto.toListDto(obj));
     }
 
-    @PreAuthorize("@checker.verifyAccessToStudent(#codeStudent)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STUDENT')")
     @GetMapping("/students-enrollments/{codeStudent}")
     public ResponseEntity<List<EnrollmentResponseDto>> findAllByStudentCode(@PathVariable Long codeStudent) {
         List<Enrollment> enrollments = enrollmentService.findAllEnrollmentsByStudentId(codeStudent);
         return ResponseEntity.ok(EnrollmentResponseDto.toListDto(enrollments));
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    @GetMapping("/teachers-enrollments/{teacherId}/{subjectId}")
+    public ResponseEntity<List<EnrollmentResponseDto>> findAllBySubjectIdAndTeacherId(@PathVariable Long teacherId, @PathVariable Long subjectId) {
+        List<Enrollment> enrollments = enrollmentService.findAllBySubjectIdAndTeacherId(subjectId, teacherId);
+        return ResponseEntity.ok(EnrollmentResponseDto.toListDto(enrollments));
+    }
+
+    @PutMapping("/update-enrollment/{idEnrollment}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+    public ResponseEntity<Void> updateEnrollment(@RequestBody EnrollmentUpdateDto dto, @PathVariable Long idEnrollment) {
+        enrollmentService.update(dto, idEnrollment);
+        return ResponseEntity.ok().build();
     }
 }

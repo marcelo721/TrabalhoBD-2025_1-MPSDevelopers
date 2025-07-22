@@ -13,7 +13,8 @@ public record EnrollmentResponseDto(
         SubjectCourseResponseDto subject,
         Float finalGrade,
         Float attendance,
-        StatusEnrollment statusEnrollment
+        StatusEnrollment statusEnrollment,
+        Long code
 ) {
 
     public static EnrollmentResponseDto toDto(Enrollment enrollment) {
@@ -24,7 +25,7 @@ public record EnrollmentResponseDto(
                 enrollment.getStudent().getId());
 
         return new EnrollmentResponseDto(studentDto, subjectDto,
-                enrollment.getFinalGrade(), enrollment.getAttendance(), enrollment.getEnrollmentStatus());
+                enrollment.getFinalGrade(), enrollment.getAttendance(), enrollment.getEnrollmentStatus(), enrollment.getCode());
     }
 
     public static List<EnrollmentResponseDto> toListDto(List<Enrollment> enrollments) {

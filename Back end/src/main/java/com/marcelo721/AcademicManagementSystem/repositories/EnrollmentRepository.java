@@ -28,4 +28,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     // método que verifica se o estudante já está matriculado em uma certa disciplina
     boolean existsEnrollmentByStudentIdAndSubjectCode(Long studentCode, Long subjectCode);
+
+    List<Enrollment> findAllBySubjectCode(Long idSubject);
 }

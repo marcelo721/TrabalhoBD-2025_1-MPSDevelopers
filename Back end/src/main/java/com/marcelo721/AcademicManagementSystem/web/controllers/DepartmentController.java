@@ -47,7 +47,7 @@ public class DepartmentController {
         return ResponseEntity.ok(DepartmentResponseDto.toListDto(departments));
     }
 
-    @PreAuthorize("@checker.verifyAccess(#code)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
     @GetMapping("/department-courses/{code}")
     public ResponseEntity<List<CourseResponseDto>> getDepartmentCourses(@PathVariable Long code) {
         List<Course> courses = departmentService.findByDepartmentID(code);

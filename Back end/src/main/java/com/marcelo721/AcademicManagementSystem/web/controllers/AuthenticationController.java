@@ -2,6 +2,7 @@ package com.marcelo721.AcademicManagementSystem.web.controllers;
 
 import com.marcelo721.AcademicManagementSystem.entities.AppUser;
 import com.marcelo721.AcademicManagementSystem.entities.Enums.RoleUser;
+import com.marcelo721.AcademicManagementSystem.entities.Student;
 import com.marcelo721.AcademicManagementSystem.jwt.JwtToken;
 import com.marcelo721.AcademicManagementSystem.repositories.StudentRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.UserRepository;
@@ -52,6 +53,7 @@ public class AuthenticationController {
         if (user.getRole() == RoleUser.STUDENT) {
             name = studentService.findByUserId(user.getId()).getName();
             code = studentService.findByUserId(user.getId()).getId();
+            log.info("Student with name " + user.getUsername() + " found");
         }else if (user.getRole() == RoleUser.TEACHER) {
             name = teacherService.findByUserId(user.getId()).getName();
             code = teacherService.findByUserId(user.getId()).getId();

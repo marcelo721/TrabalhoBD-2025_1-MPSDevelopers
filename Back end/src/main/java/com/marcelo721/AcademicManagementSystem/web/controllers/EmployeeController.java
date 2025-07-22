@@ -30,7 +30,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")//tested
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")//tested
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResponseDto> findById(@PathVariable Long id) {
         Employee employee = employeeService.findById(id);

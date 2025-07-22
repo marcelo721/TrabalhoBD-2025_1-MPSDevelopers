@@ -33,7 +33,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PreAuthorize("@checker.verifyAccessToEmployee(#id)")//tested
+    @PreAuthorize("hasRole('ADMIN')or hasRole('EMPLOYEE')")//tested
     @GetMapping("/{id}")
     public ResponseEntity<CourseResponseDto> findById(@PathVariable Long id) {
         Course obj = courseService.findById(id);
