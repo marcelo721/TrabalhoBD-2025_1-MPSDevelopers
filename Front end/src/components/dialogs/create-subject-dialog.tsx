@@ -227,9 +227,9 @@ export function CreateSubjectDialog() {
                 </FormControl>
                 <FormMessage />
               </FormItem>
-              ''
+
               <FormItem>
-                <FormLabel>Códigos de Pré-requisitos</FormLabel>
+                <FormLabel>Códigos de Professores</FormLabel>
                 <FormControl>
                   <TagInput
                     tags={teacherId}

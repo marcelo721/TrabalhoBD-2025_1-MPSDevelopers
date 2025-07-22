@@ -10,9 +10,9 @@ import { toast } from 'sonner'
 import { InfoPill } from '@/components/info-pill'
 import { findCourseByCodeService } from '@/services/course/fint-course-by-code'
 import { deleteCourseService } from '@/services/course/delete-course-service'
-import { CardSkeleton } from '../components/card-skeleton'
-import { SubjectCard } from '../components/subject-card'
-import { StudentCard } from '../components/student-card'
+import { CardSkeleton } from '../../components/card-skeleton'
+import { SubjectCard } from '../../components/subject-card'
+import { StudentCard } from '../../components/student-card'
 import { CreateUndergraduateStudentInCourseDialog } from '@/components/dialogs/create-undergraduate-student-in-course-dialog'
 import { CreatePostgraduateStudentInCourseDialog } from '@/components/dialogs/create-postgraduate-student-in-course-dialog'
 
@@ -23,7 +23,8 @@ export function AdminCourseDetailsPage() {
 
   const { data: course, isPending: isCourseLoading } = useQuery({
     queryKey: ['course', courseId],
-    queryFn: () => findCourseByCodeService({ code: Number(courseId) }),
+    queryFn: () => findCourseByCodeService(courseId!),
+    enabled: !!courseId,
   })
 
   const handleDeleteCourse = useCallback(async () => {
@@ -78,8 +79,8 @@ export function AdminCourseDetailsPage() {
           <AlertDialog
             actionText="Excluir"
             cancelText="Cancelar"
-            title="Excluir professor"
-            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
+            title="Excluir curso"
+            description="Você tem certeza que deseja excluir este curso? Esta ação não pode ser desfeita."
             onAction={handleDeleteCourse}
           >
             <Button variant="outline">
@@ -92,7 +93,7 @@ export function AdminCourseDetailsPage() {
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Disciplinas</h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isCourseLoading ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -127,7 +128,7 @@ export function AdminCourseDetailsPage() {
             </div>
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isCourseLoading ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

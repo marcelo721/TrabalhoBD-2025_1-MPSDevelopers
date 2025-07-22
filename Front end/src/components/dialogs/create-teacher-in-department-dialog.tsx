@@ -26,7 +26,7 @@ import { queryClient } from '@/lib/query-client'
 import { DatePicker } from '../date-picker'
 
 import { withMask } from 'use-mask-input'
-import type { Department } from '@/types/department'
+import type { Department, DepartmentCourse } from '@/types/department'
 import { TagInput } from '../tag-input'
 import type { Tag } from 'emblor'
 import { createTeacherService } from '@/services/teacher/create-teacher-service'
@@ -53,7 +53,7 @@ const createTeacherSchema = z.object({
 type CreateTeacherFormData = z.infer<typeof createTeacherSchema>
 
 type CreateTeacherInDepartmentDialogProps = {
-  department: Department
+  department: Department | DepartmentCourse
 }
 
 export function CreateTeacherInDepartmentDialog({
@@ -94,6 +94,10 @@ export function CreateTeacherInDepartmentDialog({
 
         queryClient.invalidateQueries({
           queryKey: ['department', department.code],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: ['employee', 'teachers', department.code],
         })
 
         setIsOpen(false)

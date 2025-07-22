@@ -36,7 +36,7 @@ type SignInFormData = z.infer<typeof signInFormSchema>
 export function SignIn() {
   const navigate = useNavigate()
 
-  const { signIn, user, isUserLoading } = useUser()
+  const { signIn, user, isUserLoading, student, employee } = useUser()
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
@@ -61,10 +61,10 @@ export function SignIn() {
   }
 
   useEffect(() => {
-    if (!isUserLoading && user) {
+    if (!isUserLoading && user && (student || employee)) {
       navigate(`/${user.role.toLowerCase()}`)
     }
-  }, [navigate, user, isUserLoading])
+  }, [navigate, user, isUserLoading, student, employee])
 
   return (
     <section className="w-full">

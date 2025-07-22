@@ -13,7 +13,7 @@ export function AppLayout() {
   }, [isUserLoading, user, navigate])
 
   return (
-    <main>
+    <main className="flex h-full w-full flex-col items-center justify-start">
       <Outlet />
     </main>
   )

@@ -1,8 +1,22 @@
-import { Outlet } from 'react-router'
-import { Sidebar } from './components/sidebar'
+import { Outlet, useNavigate } from 'react-router'
+import { useUser } from '@/hooks/contexts/use-user'
+import { useEffect } from 'react'
+import { Sidebar } from '../components/sidebar'
 
 export function AdminPage() {
-  // This function will render the admin page
+  const navigate = useNavigate()
+  const { verifyAdminUser, isUserLoading, user } = useUser()
+
+  useEffect(() => {
+    verifyAdminUser()
+  }, [verifyAdminUser])
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      navigate('/entrar')
+    }
+  }, [isUserLoading, user, navigate])
+
   return (
     <article className="flex h-dvh w-full">
       <Sidebar />

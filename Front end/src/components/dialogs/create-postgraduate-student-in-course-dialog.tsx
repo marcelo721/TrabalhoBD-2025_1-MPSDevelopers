@@ -38,8 +38,7 @@ const createPostgraduateStudentSchema = z.object({
       invalid_type_error: 'Código do orientador deve ser um número',
     })
     .min(1, 'Código do orientador é obrigatório'),
-
-  password: z.string().min(4, 'Senha deve ter pelo menos 4 caracteres'),
+  password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
   username: z.string().min(1, 'Nome de usuário é obrigatório'),
 })
 
@@ -171,10 +170,8 @@ export function CreatePostgraduateStudentInCourseDialog({
                 />
               </div>
               <div className="flex gap-1">
-               
                 <FormField
                   control={form.control}
-
                   name="address"
                   render={({ field }) => (
                     <FormItem className="w-full">

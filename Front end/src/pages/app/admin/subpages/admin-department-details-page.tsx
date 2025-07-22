@@ -9,13 +9,13 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { deleteDepartmentService } from '@/services/departments/delete-department-service'
 import { CreateCourseInDepartmentDialog } from '@/components/dialogs/create-course-in-department'
-import { CardSkeleton } from '../components/card-skeleton'
+import { CardSkeleton } from '../../components/card-skeleton'
 import { CreateEmployeeInDepartmentDialog } from '@/components/dialogs/create-employee-in-department'
 import { findEmployeesByDepartmentCodeService } from '@/services/employee/get-employee-by-department-code'
 import { useClipboard } from '@/hooks/use-clipboard'
-import { TeacherCard } from '../components/teacher-card'
-import { CourseCard } from '../components/course-card'
-import { EmployeeCard } from '../components/employee-card'
+import { TeacherCard } from '../../components/teacher-card'
+import { CourseCard } from '../../components/course-card'
+import { EmployeeCard } from '../../components/employee-card'
 
 export function AdminDepartmentDetailsPage() {
   const navigate = useNavigate()
@@ -29,8 +29,8 @@ export function AdminDepartmentDetailsPage() {
 
   const { data: employees, isPending: isEmployeePending } = useQuery({
     queryKey: ['department', departmentId, 'employee'],
-    queryFn: () =>
-      findEmployeesByDepartmentCodeService({ code: Number(departmentId) }),
+    queryFn: () => findEmployeesByDepartmentCodeService(departmentId!),
+    enabled: !!departmentId,
   })
 
   const handleDeleteDepartment = useCallback(async () => {
@@ -87,7 +87,7 @@ export function AdminDepartmentDetailsPage() {
             <CreateTeacherInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isDepartmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -116,7 +116,7 @@ export function AdminDepartmentDetailsPage() {
             <CreateCourseInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isDepartmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -145,7 +145,7 @@ export function AdminDepartmentDetailsPage() {
             <CreateEmployeeInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isEmployeePending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

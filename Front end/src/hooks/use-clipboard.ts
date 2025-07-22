@@ -3,9 +3,9 @@ import { toast } from 'sonner'
 
 export const useClipboard = () => {
   const copyToClipboard = useCallback(
-    async (text: string, message?: string) => {
+    async (text: string | number, message?: string) => {
       try {
-        await navigator.clipboard.writeText(text)
+        await navigator.clipboard.writeText(text.toString())
         toast.success(message || 'Texto copiado para a área de transferência!')
         return true
       } catch (error) {

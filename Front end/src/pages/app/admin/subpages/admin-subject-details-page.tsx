@@ -8,15 +8,15 @@ import { useClipboard } from '@/hooks/use-clipboard'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 
-import { CardSkeleton } from '../components/card-skeleton'
+import { CardSkeleton } from '../../components/card-skeleton'
 import { findSubjectByCodeService } from '@/services/subjects/find-subject-by-code-service'
 import { deleteSubjectService } from '@/services/subjects/delete-subject-service'
 import { InfoPill } from '@/components/info-pill'
 import { getSubjectTypeName } from '@/lib/get-subject-type-name'
-import { CourseCard } from '../components/course-card'
-import { SubjectCard } from '../components/subject-card'
+import { CourseCard } from '../../components/course-card'
+import { SubjectCard } from '../../components/subject-card'
 import { findAllEnrollmentService } from '@/services/enrollment/find-all-enrollments-service'
-import { StudentCard } from '../components/student-card'
+import { StudentCard } from '../../components/student-card'
 import { CreateEnrollmentInSubjectDialog } from '@/components/dialogs/create-enrollment-in-subject-dialog'
 
 export function AdminSubjectDetailsPage() {
@@ -27,6 +27,7 @@ export function AdminSubjectDetailsPage() {
   const { data: subject, isPending: isSubjectPending } = useQuery({
     queryKey: ['subject', subjectId],
     queryFn: () => findSubjectByCodeService(subjectId!),
+    enabled: !!subjectId,
   })
   const { data: enrollments, isPending: isEnrollmentPending } = useQuery({
     queryKey: ['enrollments'],
@@ -71,13 +72,6 @@ export function AdminSubjectDetailsPage() {
                   label="Tipo"
                   value={getSubjectTypeName(subject.typeSubject)}
                 />
-                {/* <SubjectInformationDialog subject={subject}>
-                  <button className="text-accent-foreground bg-accent border-border flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs leading-tight uppercase">
-                    <span>+ info</span>
-
-                    <Info className="size-2.5" />
-                  </button>
-                </SubjectInformationDialog> */}
               </>
             )}
           </div>
@@ -87,8 +81,8 @@ export function AdminSubjectDetailsPage() {
           <AlertDialog
             actionText="Excluir"
             cancelText="Cancelar"
-            title="Excluir professor"
-            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
+            title="Excluir disciplina"
+            description="Você tem certeza que deseja excluir esta disciplina? Esta ação não pode ser desfeita."
             onAction={handleDeleteSubject}
           >
             <Button variant="outline">
@@ -102,8 +96,13 @@ export function AdminSubjectDetailsPage() {
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Curso</h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {subject?.course && <CourseCard course={subject?.course} />}
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
+          {subject?.course && (
+            <CourseCard
+              course={subject?.course}
+              to={`/admin/courses/${subject?.course.code}`}
+            />
+          )}
         </div>
       </div>
 
@@ -117,23 +116,31 @@ export function AdminSubjectDetailsPage() {
             <CreateEnrollmentInSubjectDialog subjectId={subject.code} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isEnrollmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
             ))
           ) : enrollments && enrollments.length > 0 ? (
-            enrollments
-              ?.filter(
-                (enrollment) => enrollment.subject.code === subject?.code,
-              )
-              .map((enrollment) => (
-                <StudentCard
-                  to={`/admin/students/${enrollment.student.code}`}
-                  key={enrollment.student.code}
-                  student={enrollment.student}
-                />
-              ))
+            enrollments?.filter(
+              (enrollment) => enrollment.subject.code === subject?.code,
+            ).length > 0 ? (
+              enrollments
+                ?.filter(
+                  (enrollment) => enrollment.subject.code === subject?.code,
+                )
+                .map((enrollment) => (
+                  <StudentCard
+                    to={`/admin/students/${enrollment.student.code}`}
+                    key={enrollment.student.code}
+                    student={enrollment.student}
+                  />
+                ))
+            ) : (
+              <div className="text-muted-foreground w-full">
+                Nenhum estudante matriculado encontrado.
+              </div>
+            )
           ) : (
             <div className="text-muted-foreground w-full">
               Nenhum estudante matriculado encontrado.
@@ -145,7 +152,7 @@ export function AdminSubjectDetailsPage() {
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Pré-requisitos</h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isSubjectPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -173,7 +180,7 @@ export function AdminSubjectDetailsPage() {
             Disciplinas Dependentes
           </h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isSubjectPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

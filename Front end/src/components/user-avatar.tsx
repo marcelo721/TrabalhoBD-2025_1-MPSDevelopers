@@ -5,10 +5,14 @@ import { useMemo } from 'react'
 export function UserAvatar() {
   const { user } = useUser()
 
-  console.log('Usuário logado:', user)
-
   const firstLetter = useMemo(
-    () => (user ? user.username.charAt(0).toUpperCase() : ''),
+    () =>
+      user &&
+      (user?.name
+        ? user.name.charAt(0).toUpperCase()
+        : user?.username
+          ? user?.username.charAt(0).toUpperCase()
+          : ''),
     [user],
   )
 
@@ -24,7 +28,7 @@ export function UserAvatar() {
       </div>
       <div className="flex flex-col items-start justify-center">
         <span className="text-base leading-tight font-semibold first-letter:uppercase">
-          {user?.username}
+          {user?.name || user?.username || 'Usuário'}
         </span>
         <span className="text-muted-foreground text-sm font-medium">
           {rolename}

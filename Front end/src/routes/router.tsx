@@ -5,7 +5,6 @@ import { AuthLayout } from '../pages/auth/auth-layout'
 import { SignIn } from '../pages/auth/sign-in'
 import { TeacherPage } from '@/pages/app/teacher'
 import { StudentPage } from '@/pages/app/student'
-import { AdminPage } from '@/pages/app/admin'
 import { EmployeePage } from '@/pages/app/employee'
 
 import { AdminDepartmentsPage } from '@/pages/app/admin/subpages/admin-departments-page'
@@ -19,6 +18,14 @@ import { AdminStudentsPage } from '@/pages/app/admin/subpages/admin-student-page
 import { AdminStudentDetailsPage } from '@/pages/app/admin/subpages/admin-student-details-page'
 import { AdminSubjectPage } from '@/pages/app/admin/subpages/admin-subjects-page'
 import { AdminSubjectDetailsPage } from '@/pages/app/admin/subpages/admin-subject-details-page'
+import { AdminPage } from '@/pages/app/admin'
+import { EmployeeDepartmentPage } from '@/pages/app/employee/subpages/employee-department-page'
+import { EmployeeTeachersPage } from '@/pages/app/employee/subpages/employee-teacher-page'
+import { EmployeeCoursesPage } from '@/pages/app/employee/subpages/employee-courses-page'
+import { EmployeeCourseDetailsPage } from '@/pages/app/employee/subpages/employee-course-details-page'
+import { EmployeeTeacherDetailsPage } from '@/pages/app/employee/subpages/employee-teacher-details-page'
+import { TeacherSubjectsPage } from '@/pages/app/teacher/subjects'
+import { TeacherSubjectDetailsPage } from '@/pages/app/teacher/subject'
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +40,16 @@ export const router = createBrowserRouter([
       {
         path: '/teacher',
         element: <TeacherPage />,
+        children: [
+          {
+            path: '/teacher',
+            element: <TeacherSubjectsPage />,
+          },
+          {
+            path: '/teacher/subject/:subjectId',
+            element: <TeacherSubjectDetailsPage />,
+          },
+        ],
       },
       {
         path: '/student',
@@ -95,6 +112,28 @@ export const router = createBrowserRouter([
       {
         path: '/employee',
         element: <EmployeePage />,
+        children: [
+          {
+            path: '/employee/department',
+            element: <EmployeeDepartmentPage />,
+          },
+          {
+            path: '/employee/teachers',
+            element: <EmployeeTeachersPage />,
+          },
+          {
+            path: '/employee/teachers/:teacherId',
+            element: <EmployeeTeacherDetailsPage />,
+          },
+          {
+            path: '/employee/courses',
+            element: <EmployeeCoursesPage />,
+          },
+          {
+            path: '/employee/courses/:courseId',
+            element: <EmployeeCourseDetailsPage />,
+          },
+        ],
       },
     ],
   },

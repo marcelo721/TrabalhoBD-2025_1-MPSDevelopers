@@ -10,8 +10,8 @@ import { toast } from 'sonner'
 import { findStudentByCodeService } from '@/services/students/find-student-by-code-service'
 import { deleteStudentService } from '@/services/students/delete-student-service'
 import { StudentInformationDialog } from '@/components/dialogs/student-information-dialog'
-import { CardSkeleton } from '../components/card-skeleton'
-import { SubjectNameCard } from '../components/subject-name-card'
+import { CardSkeleton } from '../../components/card-skeleton'
+import { SubjectNameCard } from '../../components/subject-name-card'
 import { CreateEnrollmentInStudentDialog } from '@/components/dialogs/create-enrollment-in-student-dialog'
 
 export function AdminStudentDetailsPage() {
@@ -22,6 +22,7 @@ export function AdminStudentDetailsPage() {
   const { data: student, isPending: isStudentPending } = useQuery({
     queryKey: ['student', studentId],
     queryFn: () => findStudentByCodeService(studentId!),
+    enabled: !!studentId,
   })
 
   const handleDeleteStudent = useCallback(async () => {
@@ -70,8 +71,8 @@ export function AdminStudentDetailsPage() {
           <AlertDialog
             actionText="Excluir"
             cancelText="Cancelar"
-            title="Excluir professor"
-            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
+            title="Excluir Estudante"
+            description="Você tem certeza que deseja excluir este estudante? Esta ação não pode ser desfeita."
             onAction={handleDeleteStudent}
           >
             <Button variant="outline">
@@ -89,7 +90,7 @@ export function AdminStudentDetailsPage() {
             <CreateEnrollmentInStudentDialog studentId={student.code} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isStudentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

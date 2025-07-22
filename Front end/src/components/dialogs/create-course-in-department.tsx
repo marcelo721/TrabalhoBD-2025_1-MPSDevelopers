@@ -25,7 +25,7 @@ import { useCallback, useState } from 'react'
 
 import { queryClient } from '@/lib/query-client'
 import { createCourseService } from '@/services/course/create-course-service'
-import type { Department } from '@/types/department'
+import type { Department, DepartmentCourse } from '@/types/department'
 import NumberInput from '../number-input'
 
 const createCourseInDepartmentSchema = z.object({
@@ -38,7 +38,7 @@ type CreateCourseInDepartmentFormData = z.infer<
 >
 
 type CreateCourseInDepartmentDialogProps = {
-  department: Department
+  department: Department | DepartmentCourse
 }
 
 export function CreateCourseInDepartmentDialog({
@@ -63,8 +63,12 @@ export function CreateCourseInDepartmentDialog({
           departmentId: department.code,
         })
 
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
           queryKey: ['department', department.code],
+        })
+
+        await queryClient.invalidateQueries({
+          queryKey: ['employee', 'courses', department.code],
         })
 
         setIsOpen(false)

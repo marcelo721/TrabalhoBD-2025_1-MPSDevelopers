@@ -5,9 +5,9 @@ type InfoCardProps = {
 
 export function InfoCard({ title, value }: InfoCardProps) {
   return (
-    <div className="bg-accent/30 border-border flex w-full flex-col rounded-sm border p-1">
+    <div className="bg-accent/30 border-border flex h-fit w-full flex-col rounded-sm border p-1">
       <span className="text-xs uppercase">{title}:</span>
-      <br />
+
       <strong className="text-base leading-tight font-semibold">
         {Array.isArray(value) ? (
           <ul className="list-none">

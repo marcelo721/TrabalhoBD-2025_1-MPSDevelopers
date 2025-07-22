@@ -10,8 +10,6 @@ export type NavItemType = {
 export function NavItem({ label, href, icon }: NavItemType) {
   const { pathname } = useLocation()
 
-  console.log('Current pathname:', pathname)
-
   return (
     <a
       href={href}
