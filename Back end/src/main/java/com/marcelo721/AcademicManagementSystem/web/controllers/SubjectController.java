@@ -2,6 +2,7 @@ package com.marcelo721.AcademicManagementSystem.web.controllers;
 
 import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.services.SubjectService;
+import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.AddPreRequisites;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectResponseDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectUpdateDto;
@@ -53,8 +54,18 @@ public class SubjectController {
     }
 
     @PutMapping("/{code}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> updateSubject(@PathVariable Long code, @RequestBody SubjectUpdateDto dto){
         subjectService.updateSubject(code, dto);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/pre-requisites/{code}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> addPreRequisites(@PathVariable Long code, @RequestBody AddPreRequisites dto){
+        subjectService.addPreRequisite(code, dto);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

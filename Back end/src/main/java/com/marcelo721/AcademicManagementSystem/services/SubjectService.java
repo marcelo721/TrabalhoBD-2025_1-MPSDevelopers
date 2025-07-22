@@ -5,6 +5,7 @@ import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.entities.Teacher;
 import com.marcelo721.AcademicManagementSystem.repositories.CourseRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.SubjectRepository;
+import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.AddPreRequisites;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,5 +86,16 @@ public class SubjectService {
         subject.setSyllabus(dto.syllabus());
 
         subjectRepository.save(subject);
+    }
+
+    @Transactional
+    public void addPreRequisite(Long idSubject, AddPreRequisites dto){
+        Subject subject = findById(idSubject);
+        for (Long idPrerequisite : dto.prerequisitesId()) {
+            Subject prerequisite = findById(idPrerequisite);
+            subject.getPrerequisites().add(prerequisite);
+        }
+        subjectRepository.save(subject);
+
     }
 }
