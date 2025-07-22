@@ -6,6 +6,7 @@ import com.marcelo721.AcademicManagementSystem.entities.Teacher;
 import com.marcelo721.AcademicManagementSystem.repositories.CourseRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.SubjectRepository;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectCreateDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -73,5 +74,10 @@ public class SubjectService {
 
         disconnectSubject(subject);
         subjectRepository.delete(subject);
+    }
+
+    @Transactional
+    public void updateSubject(SubjectUpdateDto dto){
+
     }
 }

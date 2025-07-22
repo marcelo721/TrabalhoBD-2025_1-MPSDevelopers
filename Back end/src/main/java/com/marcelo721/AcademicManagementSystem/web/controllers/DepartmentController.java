@@ -7,6 +7,7 @@ import com.marcelo721.AcademicManagementSystem.services.DepartmentService;
 import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseResponseDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentResponseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,5 +61,12 @@ public class DepartmentController {
     public ResponseEntity<Void> deleteDepartment(@PathVariable @Valid Long departmentId) {
         departmentService.deleteById(departmentId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{code}")
+    @PreAuthorize("hasRole('ADMIN')")//tested
+    public ResponseEntity<Void> updateDepartment(@PathVariable Long code, @RequestBody DepartmentUpdateDto dto){
+        departmentService.updateDepartment(code,dto);
+        return ResponseEntity.ok().build();
     }
 }

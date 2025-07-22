@@ -4,6 +4,7 @@ import com.marcelo721.AcademicManagementSystem.entities.Course;
 import com.marcelo721.AcademicManagementSystem.entities.Department;
 import com.marcelo721.AcademicManagementSystem.repositories.CourseRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.DepartmentRepository;
+import com.marcelo721.AcademicManagementSystem.web.dto.departmentDto.DepartmentUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,12 @@ public class DepartmentService {
     public void deleteById(Long departmentID) {
         departmentRepository.findById(departmentID).orElseThrow(() -> new EntityNotFoundException("Department not found"));
         departmentRepository.deleteById(departmentID);
+    }
+
+    @Transactional
+    public void updateDepartment(Long idDepartment, DepartmentUpdateDto dto){
+        Department department = getDepartmentById(idDepartment);
+        department.setName(dto.newName());
+        departmentRepository.save(department);
     }
 }
