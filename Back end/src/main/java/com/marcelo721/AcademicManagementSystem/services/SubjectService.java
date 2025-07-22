@@ -77,7 +77,12 @@ public class SubjectService {
     }
 
     @Transactional
-    public void updateSubject(SubjectUpdateDto dto){
+    public void updateSubject(Long subjectCode,SubjectUpdateDto dto){
+        Subject subject = findById(subjectCode);
+        subject.setName(dto.name());
+        subject.setCredits(dto.credits());
+        subject.setSyllabus(dto.syllabus());
 
+        subjectRepository.save(subject);
     }
 }

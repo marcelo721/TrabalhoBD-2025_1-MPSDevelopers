@@ -13,12 +13,6 @@ public record SubjectUpdateDto(
         Integer credits,
 
         @NotBlank
-        String syllabus,
-
-        @NotNull
-        List<@NotNull Long> prerequisitesId,
-
-        @NotNull
-        List<@NotNull Long> TeacherId
+        String syllabus
 ) {
 }

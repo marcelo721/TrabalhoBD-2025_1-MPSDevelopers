@@ -4,6 +4,7 @@ import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.services.SubjectService;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectResponseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectUpdateDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,10 +45,16 @@ public class SubjectController {
     }
 
 
-    @DeleteMapping("´/{subjectId}")
+    @DeleteMapping("/{subjectId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long subjectId) {
         subjectService.deleteSubjectById(subjectId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{code}")
+    public ResponseEntity<Void> updateSubject(@PathVariable Long code, @RequestBody SubjectUpdateDto dto){
+        subjectService.updateSubject(code, dto);
+        return ResponseEntity.ok().build();
     }
 }
