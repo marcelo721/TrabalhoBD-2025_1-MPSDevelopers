@@ -8,6 +8,7 @@ import com.marcelo721.AcademicManagementSystem.repositories.CourseRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.StudentRepository;
 import com.marcelo721.AcademicManagementSystem.repositories.SubjectRepository;
 import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseCreateDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -88,5 +89,10 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
-
+    @Transactional
+    public void updateCourse(Long codeCourse, CourseUpdateDto dto){
+        Course course = findById(codeCourse);
+        course.setName(dto.newName());
+        courseRepository.save(course);
+    }
 }

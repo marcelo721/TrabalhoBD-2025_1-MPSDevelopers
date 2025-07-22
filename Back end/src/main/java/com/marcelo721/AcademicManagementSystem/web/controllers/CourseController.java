@@ -6,6 +6,7 @@ import com.marcelo721.AcademicManagementSystem.entities.Subject;
 import com.marcelo721.AcademicManagementSystem.services.CourseService;
 import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseCreateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseResponseDto;
+import com.marcelo721.AcademicManagementSystem.web.dto.courseDto.CourseUpdateDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.studentDto.StudentResponseDto;
 import com.marcelo721.AcademicManagementSystem.web.dto.subjectDto.SubjectResponseDto;
 import jakarta.validation.Valid;
@@ -80,5 +81,12 @@ public class CourseController {
     public ResponseEntity<Void> deleteById(@PathVariable Long courseId) {
         courseService.deleteCourseById(courseId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{code}")
+    public ResponseEntity<Void> updateCourse(@PathVariable Long code, @RequestBody CourseUpdateDto dto){
+        courseService.updateCourse(code, dto);
+        return ResponseEntity.ok().build();
     }
 }
