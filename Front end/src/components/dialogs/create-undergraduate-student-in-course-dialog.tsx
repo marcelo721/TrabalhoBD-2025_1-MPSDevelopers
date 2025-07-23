@@ -91,13 +91,13 @@ export function CreateUndergraduateStudentInCourseDialog({
           queryKey: ['course', courseCode],
         })
 
-        toast.success('Curso criado com sucesso.')
+        toast.success('Estudante criado com sucesso.')
 
         setIsOpen(false)
         form.reset()
       } catch (error) {
-        toast.error('Não foi possível criar curso.')
-        console.error('Erro ao criar curso:', error)
+        toast.error('Não foi possível criar estudante.')
+        console.error('Erro ao criar estudante:', error)
       }
     },
     [form, phones, courseCode],

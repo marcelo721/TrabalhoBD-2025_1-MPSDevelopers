@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '../ui/form'
 import { Input } from '../ui/input'
+import { toast } from 'sonner'
 import { useCallback, useState } from 'react'
 import { queryClient } from '@/lib/query-client'
 import { DatePicker } from '../date-picker'
@@ -90,6 +91,8 @@ export function CreateTeacherDialog() {
         queryClient.invalidateQueries({
           queryKey: ['teachers'],
         })
+
+        toast.success('Professor criada com sucesso.')
 
         setIsOpen(false)
         form.reset()

@@ -99,13 +99,13 @@ export function CreatePostgraduateStudentDialog() {
           queryKey: ['students'],
         })
 
-        toast.success('Curso criado com sucesso.')
+        toast.success('Estudante de pós-graduação criado com sucesso.')
 
         setIsOpen(false)
         form.reset()
       } catch (error) {
-        toast.error('Não foi possível criar curso.')
-        console.error('Erro ao criar curso:', error)
+        toast.error('Não foi possível criar estudante de pós-graduação.')
+        console.error('Erro ao criar estudantede pós-graduação:', error)
       }
     },
     [form, phones],

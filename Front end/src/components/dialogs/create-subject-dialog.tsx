@@ -109,13 +109,13 @@ export function CreateSubjectDialog() {
           queryKey: ['subjects'],
         })
 
-        toast.success('Curso criado com sucesso.')
+        toast.success('Disciplina criada com sucesso.')
 
         setIsOpen(false)
         form.reset()
       } catch (error) {
-        toast.error('Não foi possível criar curso.')
-        console.error('Erro ao criar curso:', error)
+        toast.error('Não foi possível criar disciplina.')
+        console.error('Erro ao criar disciplina:', error)
       }
     },
     [form, prerequisitesId, teacherId],

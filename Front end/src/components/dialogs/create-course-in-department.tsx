@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form'
+import { toast } from 'sonner'
 import { Input } from '../ui/input'
 import { useCallback, useState } from 'react'
 
@@ -71,10 +72,12 @@ export function CreateCourseInDepartmentDialog({
           queryKey: ['employee', 'courses', department.code],
         })
 
+        toast.success('Curso criado com sucesso.')
+
         setIsOpen(false)
         form.reset()
       } catch (error) {
-        console.error('Erro ao criar departamento:', error)
+        console.error('Erro ao criar curso:', error)
       }
     },
     [form, department.code],

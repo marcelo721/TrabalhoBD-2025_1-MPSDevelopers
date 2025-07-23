@@ -20,6 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form'
+import { toast } from 'sonner'
 import { Input } from '../ui/input'
 import { useCallback, useState } from 'react'
 import { createDepartmentService } from '@/services/departments/create-department-service'
@@ -51,6 +52,8 @@ export function CreateDepartmentDialog() {
         queryClient.invalidateQueries({
           queryKey: ['departments'],
         })
+
+        toast.success('Departamento criado com sucesso.')
 
         setIsOpen(false)
         form.reset()
