@@ -196,3 +196,89 @@ CREATE TABLE teacher_subjects (
     FOREIGN KEY (teacher_id) REFERENCES teacher(code) ON DELETE CASCADE,
     FOREIGN KEY (subject_id) REFERENCES subject(code) ON DELETE CASCADE
 );
+
+
+
+-- (22/07/2024) adicionado trigger para verificar se uma disciplina tem mais de dois professores
+DELIMITER $$
+
+CREATE TRIGGER trg_limit_teachers_per_subject
+BEFORE INSERT ON teacher_subjects
+FOR EACH ROW
+BEGIN
+    DECLARE teacher_count INT;
+
+    SELECT COUNT(*) INTO teacher_count
+    FROM teacher_subjects
+    WHERE subject_id = NEW.subject_id;
+
+    IF teacher_count >= 2 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Não é permitido associar mais de dois professores a uma disciplina.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+-- (22/07/2024) adicionado trigger para verificar se a quantidades de creditos de uma disciplina é maior que 0
+
+DELIMITER $$
+
+CREATE TRIGGER trg_check_min_credits_before_insert
+BEFORE INSERT ON course
+FOR EACH ROW
+BEGIN
+    IF NEW.min_credits <= 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O número mínimo de créditos deve ser maior que zero.';
+    END IF;
+END$$
+
+CREATE TRIGGER trg_check_min_credits_before_update
+BEFORE UPDATE ON course
+FOR EACH ROW
+BEGIN
+    IF NEW.min_credits <= 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'O número mínimo de créditos deve ser maior que zero.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+-- (22/07/2024) adicionado trigger para verificar emails repetidos
+
+DELIMITER $$
+
+CREATE TRIGGER trg_check_duplicate_teacher_email
+BEFORE INSERT ON teacher_emails
+FOR EACH ROW
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM teacher_emails
+        WHERE teacher_id = NEW.teacher_id AND email = NEW.email
+    ) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email duplicado para esse professor.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+-- (22/07/2024) adicionado trigger para verificar numeros de telefones repetidos
+DELIMITER $$
+
+CREATE TRIGGER trg_check_duplicate_phone
+BEFORE INSERT ON phone
+FOR EACH ROW
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM phone
+        WHERE student_code = NEW.student_code AND number = NEW.number
+    ) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Telefone duplicado para esse estudante.';
+    END IF;
+END$$
+
+DELIMITER ;
+
+

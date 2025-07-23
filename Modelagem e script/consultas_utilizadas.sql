@@ -160,9 +160,40 @@ DELETE FROM course WHERE code = 400000;
 -- deletar um departamento
 DELETE FROM department WHERE code = 400000;
 
+-- atualizar o nome de um departamento
+UPDATE department
+SET name = 'Novo Nome do Departamento'
+WHERE code = 400001; -- substitua pelo código real do departamento
 
+-- atualizar o nome de um curso 
+UPDATE course
+SET name = 'Novo Nome do Curso'
+WHERE code = 400001;
 
+-- atualizar nome, data de contrato e data de nascimento 
+UPDATE teacher
+SET name = 'Novo Nome do Professor',
+    birth_date = '1980-05-12',
+    hire_date = '2020-08-01'
+WHERE code = 400001; 
 
+-- inserir novos email e telefones em um perfil do professor
+INSERT INTO teacher_emails (teacher_id, email)
+VALUES 
+    (400001, 'professor.novo1@universidade.edu'),
+    (400001, 'professor.novo2@universidade.edu');
+
+-- atualizar nome endereço de um estudante
+UPDATE student
+SET name = 'Novo Nome do Estudante',
+    address = 'Novo Endereço do Estudante'
+WHERE code = 400001;
+
+-- adicionar mais disciplinas de pre requisito 
+INSERT INTO subject_prerequisites (subject_code, prerequisite_code)
+VALUES 
+    (400010, 400005),  -- Disciplina 400010 agora tem como pré-requisito a 400005
+    (400010, 400006);  -- Disciplina 400010 também tem como pré-requisito a 400006
 
 
 
